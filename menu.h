@@ -1,10 +1,11 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct Menu Menu_t;
  
@@ -42,10 +43,9 @@ bool addMenuAction(Menu_t* m, const char* text, void(*f)());
 bool addSubMenu(Menu_t* m, Menu_t* sm);
 void useMenu(Menu_t *m);
 void deleteMenu (Menu_t *m);
-Menu_t* prepareMenu();
-void quit();
-void f3();
-void enregistrer();
-void ouvrir();
+void returnn();
+//void quit(bool cont);
+void f();
+Menu_t* Prepare_Menu();
 
 #endif

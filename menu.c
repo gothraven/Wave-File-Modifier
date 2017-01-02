@@ -1,9 +1,10 @@
-#include"menu.h"
-
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
+#include <curses.h>
+#include"menu.h"
 
 void clrscr(){
     system("@cls||clear");
@@ -58,6 +59,7 @@ void useMenu(Menu_t *m){
  printf("%s\n\n",m->desc);
   for(int i=0; i<m->cmpt; i++){
     if(m->items[i]->tag==act){
+
        printf("  %d - %s\n",i+1,m->items[i]->item->action->descr);
      }else  if(m->items[i]->tag==ssm){
        printf("  %d - %s\n",i+1,m->items[i]->item->sous_menu->desc);
@@ -72,9 +74,11 @@ void useMenu(Menu_t *m){
   if(m->items[choix-1]->tag==ssm){
      useMenu(m->items[choix-1]->item->sous_menu);
      }else  if(m->items[choix-1]->tag==act){
+      if(m->items[choix-1]->tag==act == returnn){
+        useMenu(m->root);
+      }else{
      m->items[choix-1]->item->action->fonc();
-     printf("--------------------------------\n");
-     
+      }
    }
 }
 
@@ -83,53 +87,53 @@ void deleteMenu(Menu_t *m){
  free(m);
 }
 
-void ouvrir() {
-  printf("Ouvrir un ficher\n");
+void f(){
+  printf("you choosed something");
 }
 
-void enregistrer() {
-  printf("enregistrer un ficher\n");
+//bool cont = true;
+
+void returnn(){
+
 }
 
-void f3() {
-  printf("Functionality 3 is called\n");
-}
 
-bool cont = true;
-
-void quit() {
-  cont = false;
-}
-
-Menu_t* prepareMenu(){
-  Menu_t* m;
+Menu_t* Prepare_Menu(){
+  clrscr();
+  Menu_t* MENU;
   Menu_t* sm1;
   Menu_t* sm2;
+  Menu_t* sm3;
+  Menu_t* sm4;
  
-  m = createMenu("Fichier");
- 
-  addMenuAction(m,"Ouvrir",ouvrir);
-  addMenuAction(m,"Enregistrer",enregistrer);
-  addMenuAction(m,"Information",f3);
+  MENU = createMenu("Main"); 
   
+  sm1 = createMenu("Fichier");
+  addMenuAction(sm1,"Ouvrir",f);
+  addMenuAction(sm1,"Enregistrer",f);
+  addMenuAction(sm1,"Information",f);
+  addMenuAction(sm1,"return",returnn);
+  addSubMenu(MENU,sm1);
  
-  sm1 = createMenu("Durée et tempo");
-  addMenuAction(sm1,"Inverser",ouvrir);
-  addMenuAction(sm1,"Découper",enregistrer);
-  addMenuAction(sm1,"Redimensionner",f3);
-  addSubMenu(m,sm1);
+  sm2 = createMenu("Durée et tempo");
+  addMenuAction(sm2,"Inverser",f);
+  addMenuAction(sm2,"Découper",f);
+  addMenuAction(sm2,"Redimensionner",f);
+  addMenuAction(sm2,"return",returnn);
+  addSubMenu(MENU,sm2);
 
-  sm2 = createMenu("Canaux");
-  addMenuAction(sm2,"....",ouvrir);
-  addMenuAction(sm2,"....",ouvrir);
-  addSubMenu(sm1,sm2);
+  sm3 = createMenu("Canaux");
+  addMenuAction(sm3,"ajouter",f);
+  addMenuAction(sm3,"suprimer",f);
+  addMenuAction(sm3,"return",returnn);
+  addSubMenu(MENU,sm3);
+
+  sm4 = createMenu("Hauteur");
+  addMenuAction(sm4,"more volume",f);
+  addMenuAction(sm4,"less volume",f);
+  addMenuAction(sm4,"return",returnn);
+  addSubMenu(MENU,sm4);
   
-  addMenuAction(m,"Quitter",quit);
- 
-  //while(cont){
-  //useMenu(m);
-  //}
-
-  return m;
+  return MENU;
 }
 

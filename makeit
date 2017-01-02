@@ -1,0 +1,31 @@
+NAME := App.exe
+
+SRC_LIST = main menu endians wave_info wave_reverse wave_load wave_save wave_new wave_delete wave_set wave_get
+
+COMPILER := gcc
+SRC_PATH := src/
+HDR_PATH := includes/
+CACHE_PATH := cache/
+INCF = -I $(HDR_PATH) -lm -lncurses
+
+CFLAGS = -Wextra -Wall $(INCF)
+
+SRC = $(addprefix $(SRC_PATH),$(addsuffix .c,$(SRC_LIST)))
+OBJ = $(addprefix $(CACHE_PATH),$(addsuffix .o,$(SRC_LIST)))
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+                @$(COMPILER) $(OBJ) -o $@ $(INCF)
+
+$(CACHE_PATH)%.o:$(SRC_PATH)%.c
+                @mkdir -p $(CACHE_PATH)
+                @$(COMPILER) $(CFLAGS) -o $@ -c $<
+
+clean:
+                @/bin/rm -rf $(CACHE_PATH)
+fclean: clean
+                @/bin/rm -rf $(NAME)
+re: fclean all
+
+.PHONY: all clean fclean re

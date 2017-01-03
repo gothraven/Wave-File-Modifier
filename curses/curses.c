@@ -178,7 +178,7 @@ int scroll_menu(WINDOW **items,int count,int menu_start_col){
 }
 
 int main(void){
-    animation();
+    //animation();
     int key;
     WINDOW *menubar;
     WINDOW *messagebar;

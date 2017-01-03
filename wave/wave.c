@@ -130,7 +130,7 @@ Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 Wave_t* wave_load(Wave_t * wave, const char* fname){
 	FILE * ptr; 
 	ptr = fopen(fname, "rb");
-        wave = malloc(sizeof(Wave_t));
+	wave = malloc(sizeof(Wave_t));
 	if (ptr == NULL) {
 		fprintf(stderr,"cannot open file %s\n", fname);
 		printf("your file doesn't exist, would you please try again ..\n");
@@ -143,7 +143,7 @@ Wave_t* wave_load(Wave_t * wave, const char* fname){
 	}else{
 
 		printf("Opening file..\n\n");
-                headerWave_load_fast(wave,ptr);
+		headerWave_load_fast(wave,ptr);
 		//headerWave_load(wave,ptr);
 		load_data(wave,ptr);
 		return wave;
@@ -217,29 +217,29 @@ bool load_data(Wave_t * wave, FILE * ptr){
 
 
 bool headerWave_load_fast(Wave_t * wave, FILE * ptr){
-     wave->header = malloc(sizeof(WAVE));
+	wave->header = malloc(sizeof(WAVE));
 
-        if(wave->header == NULL){
-          fprintf(stderr,"Not enough memory space to load the wave header...\n"); 
-          return false;
-        }
+	if(wave->header == NULL){
+		fprintf(stderr,"Not enough memory space to load the wave header...\n"); 
+		return false;
+	}
 
 	if(!fread(wave->header,T_ENTETE,1,ptr)) return false;
 
-     return true;
+	return true;
 
 }
 
 bool headerWave_load(Wave_t * wave, FILE * ptr){
 	wave->header = malloc(sizeof(WAVE));
-        if(wave->header == NULL){
-          fprintf(stderr,"Not enough memory space to load the wave header...\n"); 
-          return false;
-        }
+	if(wave->header == NULL){
+		fprintf(stderr,"Not enough memory space to load the wave header...\n"); 
+		return false;
+	}
 	//if(!fread(wave->header,T_ENTETE,1,ptr)) return false;
 	if(!load_riff(wave,ptr)) return false;
-	
-        if(!load_taille(ptr)) return false;
+
+	if(!load_taille(ptr)) return false;
 	wave->header->taille = buffer4[0] | (buffer4[1]<<8) | (buffer4[2]<<16) | (buffer4[3]<<24);
 
 	if(!load_wave(wave,ptr)) return false;
@@ -271,13 +271,12 @@ bool headerWave_load(Wave_t * wave, FILE * ptr){
 
 	if(!load_subTaille2(ptr)) return false;
 	wave->header->subTaille2 = buffer4[0] | (buffer4[1]<<8) | (buffer4[2]<<16) | (buffer4[3]<<24);
-	
+
 	return true;
 }
 
 
 bool wave_save(const char* fname, Wave_t * wave){
-
 	FILE *fp = fopen(fname, "wb+");
 	if(fp == NULL){
 		fprintf(stderr,"cannot open file %s in mode w+\n", fname);
@@ -346,11 +345,11 @@ void wave_reverse(Wave_t * wave){
 	unsigned char reverse[nb_oct];
 
 	int j=0;
-	for(int i =nb_oct; i>0; i--){
+	for(uint32_t i =nb_oct; i>0; i--){
 		reverse[j]=wave->data[i];
 		j++;
 	}
-	for(int i =0; i<nb_oct; i++){
+	for(uint32_t i =0; i<nb_oct; i++){
 		wave->data[i]=reverse[i];
 	}
 }
@@ -405,8 +404,8 @@ void wave_crop(Wave_t * wave, uint32_t start, uint32_t end){
 	unsigned char crop[nb_oct_rest];
 	donner = wave->data;
 
-	int j=start;
-	for(int i = 0; i<nb_oct_rest; i++){
+	uint32_t j=start;
+	for(uint32_t i = 0; i<nb_oct_rest; i++){
 		crop[i] = donner[j];
 		j++;
 	}
@@ -427,17 +426,23 @@ void wave_crop_sec(Wave_t * wave){
 	wave_crop(wave,time2oct(wave,time_start),time2oct(wave,time_end));
 }
 
+void optCrop(uint32_t i, uint32_t j){
+	i=0;
+	j=0;
+	//wave_crop();
+
+}
+
 int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
-	uint32_t nb_oct = wave->header->subTaille2;
 	uint16_t octParBloc = wave->header->align;
 	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
 	uint16_t octParCan = (wave->header->bitsParEch/8);
 	int64_t ampli;
 
-	if((i)<0 || (i)>nb_Blocs-1){
+	if((i)>nb_Blocs-1){
 		printf("erreur, Bloc doens't exist\n");
 		ampli = 0;
-	}else if(j<0 || j>wave->header->nombreCanaux){
+	}else if(j>wave->header->nombreCanaux){
 		printf("erreur, Canal doesn't exist\n");
 		ampli = 0;
 	}else{
@@ -452,7 +457,7 @@ int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 		}else if(octParCan==3){
 			ampli = wave->data[place] | (wave->data[place+1]<<8) | (wave->data[place+2]<<16);
 		}else if(octParCan==4){				
-			ampli = ampli = wave->data[place] | (wave->data[place+1]<<8) | (wave->data[place+2]<<16) | (wave->data[place+2]<<24);
+			ampli = wave->data[place] | (wave->data[place+1]<<8) | (wave->data[place+2]<<16) | (wave->data[place+2]<<24);
 		}else{
 			printf("problem happned while getting the ampli\n");
 		}
@@ -468,15 +473,14 @@ bool isBigE(){
 }
 
 void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli){
-	uint32_t nb_oct = wave->header->subTaille2;
 	uint16_t octParBloc = wave->header->align;
 	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
 	uint16_t octParCan = (wave->header->bitsParEch/8);
 
-	if((i)<0 || (i)>nb_Blocs-1){
+	if((i)>nb_Blocs-1){
 		printf("erreur, Bloc %d doens't exist\n",i);
 		ampli = 0;
-	}else if(j<0 || j>wave->header->nombreCanaux){
+	}else if(j>wave->header->nombreCanaux){
 		printf("erreur, Canal doesn't exist\n");
 		ampli = 0;
 	}else{
@@ -561,9 +565,9 @@ void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli){
 
 void add_signal(Wave_t * wave, double (*s)(double)){
 	double k=0;
-	for(int i=0; i<(wave->header->subTaille2/wave->header->align); i+=wave->header->nombreCanaux){
+	for(uint16_t i=0; i<(wave->header->subTaille2/wave->header->align); i+=wave->header->nombreCanaux){
 		k++;
-		for(int j=0; j<wave->header->nombreCanaux; j++){
+		for(uint16_t j=0; j<wave->header->nombreCanaux; j++){
 			switch(wave->header->bitsParEch){
 				case(8):wave_set(wave,i,j,(int64_t)((127.0)*(s(k))));break;
 				case(16):wave_set(wave,i,j,(int64_t)((32767.0)*(s(k))));break;
@@ -595,15 +599,15 @@ void wave_delete(Wave_t * wave){
 
 Wave_t ** wave_split(Wave_t * wave, int* pc){
 	Wave_t ** waveTab = malloc(sizeof(Wave_t)*(wave->header->nombreCanaux+1));
-	int i;
-        int j;
+	uint16_t i;
+	uint32_t j;
 	for(i=0; i<wave->header->nombreCanaux; i++){
 		waveTab[i] = wave_new(wave->header->freqEch,wave->header->bitsParEch,1,wave->header->subTaille2/wave->header->align);
 		for(j=0; j<(wave->header->subTaille2/wave->header->align); j++){
 			wave_set(waveTab[i],j,0,(wave_get(wave,j,i)));   
 		}
 	}
-        waveTab[i] = NULL;
+	waveTab[i] = NULL;
 	*pc = wave->header->nombreCanaux;
 	wave_delete(wave);
 	return waveTab;
@@ -611,15 +615,15 @@ Wave_t ** wave_split(Wave_t * wave, int* pc){
 
 Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2){
 	Wave_t * wave = wave_new(wave1->header->freqEch,wave1->header->bitsParEch,1,wave1->header->subTaille2/wave1->header->align);
-	for(int i=0; i<wave1->header->subTaille2/wave1->header->align; i++){
+	for(uint32_t i=0; i<wave1->header->subTaille2/wave1->header->align; i++){
 		wave_set(wave,i,0,(wave_get(wave1,i,0)+wave_get(wave2,i,0))/2);
 	}
-      return wave;
+	return wave;
 }
 
 Wave_t * wave_merge_all(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
-	for(int i=0; i<waveTab[0]->header->subTaille2/waveTab[0]->header->align; i++){
+	for(uint32_t i=0; i<waveTab[0]->header->subTaille2/waveTab[0]->header->align; i++){
 		for(int j=0; j<c; j++){
 			wave_set(wave,i,j,wave_get(waveTab[j],i,0));
 		}
@@ -641,15 +645,15 @@ int tailleTab(Wave_t**waveTab){
 Wave_t * wave_merge(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
 	int k = tailleTab(waveTab);
-	for(int i=0; i<(waveTab[0]->header->subTaille2/waveTab[0]->header->align); i++){
+	for(uint32_t i=0; i<(waveTab[0]->header->subTaille2/waveTab[0]->header->align); i++){
 		for(int j=0; j<k; j++){
 			if( j < c-1){	                                                
 				wave_set(wave,i,j,wave_get(waveTab[j],i,0));
 			}else{
 				Wave_t * rest = wave_merge_deux(waveTab[j],waveTab[j+1]);//wave_merge_all(waveTab+j,k-c);
-				  for(int m=0; m<(rest->header->subTaille2/rest->header->align); m++){
-                                    wave_set(wave,m,c-1,wave_get(rest,m,0)); //wave_get(rest,i,0)
-                                  }
+				for(uint32_t m=0; m<(rest->header->subTaille2/rest->header->align); m++){
+					wave_set(wave,m,c-1,wave_get(rest,m,0)); //wave_get(rest,i,0)
+				}
 				return wave;
 			}
 		}
@@ -658,25 +662,25 @@ Wave_t * wave_merge(Wave_t ** waveTab,int c){
 }
 
 Wave_t * wave_doublicat(Wave_t * wave,int c){
-        Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,wave->header->subTaille2/wave->header->align);
-        int nb_Can = wave->header->nombreCanaux;
-        for(int i=0; i<(wave->header->subTaille2/wave->header->align); i++){
+	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,wave->header->subTaille2/wave->header->align);
+	int nb_Can = wave->header->nombreCanaux;
+	for(uint32_t i=0; i<(wave->header->subTaille2/wave->header->align); i++){
 		for(int j=0; j<c; j++){
 			if( j < nb_Can){	                                                
 				wave_set(w,i,j,wave_get(wave,i,j));
 			}else{
-                                wave_set(w,i,j,wave_get(wave,i,nb_Can));
+				wave_set(w,i,j,wave_get(wave,i,nb_Can));
 			}
 		}
 	}
-  return w;
+	return w;
 }
 
 void wave_canal(Wave_t** wave, uint16_t c){
 	int p = 0;
-	int nb_Can = (*wave)->header->nombreCanaux;
+	uint16_t nb_Can = (*wave)->header->nombreCanaux;
 	if(nb_Can > c){
-                Wave_t ** waveTab = wave_split(*wave,&p);
+		Wave_t ** waveTab = wave_split(*wave,&p);
 		(*wave) = wave_merge(waveTab,c);
 	}else if(nb_Can < c){
 		(*wave) = wave_doublicat(*wave,c);
@@ -684,30 +688,117 @@ void wave_canal(Wave_t** wave, uint16_t c){
 }
 
 void get_canal(Wave_t * wave,int c,const char * fname){
-   FILE * fp = fopen(fname,"wb+");
-   for(int i=0; i<wave->header->subTaille2/wave->header->align; i++){
-     fprintf(fp,"%ld\n",wave_get(wave,i,c));
-   }
-  fclose(fp);
+	FILE * fp = fopen(fname,"wb+");
+	for(uint32_t i=0; i<wave->header->subTaille2/wave->header->align; i++){
+		fprintf(fp,"%ld\n",wave_get(wave,i,c));
+	}
+	fclose(fp);
 }
 
+Wave_t* change_canal_number(Wave_t * wave,uint16_t c){
+
+	Wave_t * newWave = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,(wave->header->subTaille2/wave->header->align));
+	if(wave->header->nombreCanaux>c){
+		uint32_t k =0;
+		for(uint32_t i=0; i<wave->header->subTaille2; i+=wave->header->align){
+			for(uint16_t j=0; j<c*(wave->header->bitsParEch/8); j++){
+				newWave->data[k] = wave->data[i+j];
+				k++; 
+			}
+		}
+	}else{
+		uint32_t k =0;
+		for(uint32_t i=0; i<wave->header->subTaille2; i+=wave->header->align){
+			for(uint16_t j=0; j<c*(wave->header->bitsParEch/8); j++){
+				if(j < (wave->header->nombreCanaux)){
+					newWave->data[k] = wave->data[i+j];
+				}else{
+					newWave->data[k]=wave->data[i+(wave->header->nombreCanaux)-1];
+				}
+				k++; 
+			}
+		}
+	}
+	return newWave;
+}
+
+void change_presion(Wave_t* wave,uint16_t p){
+	Wave_t * newWave = wave_new(wave->header->freqEch,p,wave->header->nombreCanaux,(wave->header->subTaille2/wave->header->align));
+
+	uint32_t k =0;
+        double a = ((pow(2,8)-1)/(pow(2,16)-1));
+        printf("a = %lf\n",a);
+        uint32_t size = ((wave->header->subTaille2/wave->header->align)*wave->header->nombreCanaux);
+	int32_t * d32bit = malloc(size);
+	int16_t * d16bit = malloc(size);
+	int8_t * d8bit = malloc(size);
+	for(uint32_t i=0; i<wave->header->subTaille2; i+=wave->header->align){
+		for(uint16_t j=0; j<wave->header->nombreCanaux*(wave->header->bitsParEch/8); j+=(wave->header->align/wave->header->nombreCanaux)){
+			switch(wave->header->bitsParEch){
+				case(32):
+					switch(p){
+						case(8):
+							d8bit[k]=(wave->data[i+j] | wave->data[i+j+1]<<8 | wave->data[i+j+2]<<16 | wave->data[i+j+3]<<24)*a;
+							break;
+						case(16):
+							d16bit[k]=(wave->data[i+j] | wave->data[i+j+1]<<8 | wave->data[i+j+2]<<16 | wave->data[i+j+3]<<24)*a;
+							break; 
+						case(32):
+                                                        printf("32 called\n");
+							break;  
+						default: printf("erreur\n"); 
+					}
+					break;
+				case(16):
+					switch(p){
+						case(8):
+							d8bit[k]=(wave->data[i+j] | wave->data[i+j+1]<<8)*a;
+							k++;
+                                                        //printf("d8bit[k] = %d\n",d8bit[k]);
+							//k+=2;
+						case(32):
+							break;  
+						default: printf("erreur2\n"); 
+					}
+					break;
+				default: printf("erreur 1\n");
+			}
+
+		}
+	}
+       
+		//free(newWave->data);
+	newWave->data = d8bit;
+	wave_info(newWave);
+	wave_save("prs.wav",newWave);
+}
+
+void convert(Wave_t* wave,uint16_t c,uint16_t p,const char * fname){
+
+	Wave_t* tmp = change_canal_number(wave,c);
+
+	wave_info(tmp);
+	wave_save(fname,tmp);
+}
+
+
 Wave_t * wave_copy(Wave_t * wave){
-   Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,wave->header->nombreCanaux,wave->header->subTaille2/wave->header->align);
-      for(int i=0; i<(wave->header->subTaille2/wave->header->align); i++){
+	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,wave->header->nombreCanaux,wave->header->subTaille2/wave->header->align);
+	for(int i=0; i<(wave->header->subTaille2/wave->header->align); i++){
 		for(int j=0; j<wave->header->nombreCanaux; j++){                                           
-				wave_set(w,i,j,wave_get(wave,i,j));
-                           //     wave_set(w,i,j,wave_get(wave,i,nb_Can));
-			
+			wave_set(w,i,j,wave_get(wave,i,j));
+			//     wave_set(w,i,j,wave_get(wave,i,nb_Can));
+
 		}
 	}
 
-return w;
-
-
+	return w;
 }   
+
+
 int main(void){
 
-	Wave_t * wave = wave_load(wave,"file.wav");
+	Wave_t * wave = wave_load(wave,"pcm1644.wav");
 	printf("file loaded succesfully\n");
 
 	int skipe;
@@ -719,51 +810,53 @@ int main(void){
 	//wave_info(wave);
 	//Wave_t * wave1 = wave_new(44011,16,4,800000);
 	wave_info(wave);
-
-	printf("\nentre (1) to skip?");
-	scanf("%d",&skipe);
-	clrscr();
-        printf("wave_ptr1 = %p\n",wave);
-	Wave_t * wave_n = wave_copy(wave);
-        printf("wave_ptr2 = %p\n",wave);
-        printf("yoho\n");
-        wave_info(wave);
-        //add_signal(wave1,cos);
-	//wave_scale(wave,0.5);
+	change_presion(wave,8);
 	//wave_reverse(wave);
+
+	/*printf("\nentre (1) to skip?");
+	  scanf("%d",&skipe);
+	  clrscr();
+	  printf("wave_ptr1 = %p\n",wave);
+	  Wave_t * wave_n = wave_copy(wave);
+	  printf("wave_ptr2 = %p\n",wave);
+	  printf("yoho\n");
+	  wave_info(wave);
+	//add_signal(wave1,cos);
+	//wave_scale(wave,0.5);
+
 	//wave_crop_sec(wave);
 	//wave_canal(wave,1);
 	//wave_data_print(wave);
-        //int a;
-        
-        //Wave_t ** Tab = wave_split(wave,&a);
-       /* get_canal(Tab[0],0,"Splitfile2_canal_1");
-        get_canal(Tab[1],0,"Splitfile2_canal_2");
-        get_canal(wave,0,"file2_canal_1");
-        get_canal(wave,1,"file2_canal_2");
-*/
-	printf("\nentre (1) to skip and save?");
-	scanf("%d",&skipe);
-	clrscr();
+	//int a;
+
+	//Wave_t ** Tab = wave_split(wave,&a);
+	/* get_canal(Tab[0],0,"Splitfile2_canal_1");
+	get_canal(Tab[1],0,"Splitfile2_canal_2");
+	get_canal(wave,0,"file2_canal_1");
+	get_canal(wave,1,"file2_canal_2");
+	 *//*
+	      printf("\nentre (1) to skip and save?");
+	      scanf("%d",&skipe);
+	      clrscr();
 	//printf("ampli is %lu\n",wave_get(wave,1522,1));
 
-       if(wave_save("result_canal1.wav",wave_n)){
-		printf("succesfully saved\n");
+	if(wave_save("result_reverse.wav",wave)){
+	printf("succesfully saved\n");
 	}else{
-		printf("problem happened while saving\n");
+	printf("problem happened while saving\n");
 	}
-	/*
-        if(wave_save("result1.1.wav",Tab[0])){
-		printf("succesfully saved\n");
-	}else{
-		printf("problem happened while saving\n");
-	}
-        if(wave_save("result1.2.wav",Tab[1])){
-		printf("succesfully saved\n");
-	}else{
-		printf("problem happened while saving\n");
-	}
-*/
+	    *//*
+		 if(wave_save("result1.1.wav",Tab[0])){
+		 printf("succesfully saved\n");
+		 }else{
+		 printf("problem happened while saving\n");
+		 }
+		 if(wave_save("result1.2.wav",Tab[1])){
+		 printf("succesfully saved\n");
+		 }else{
+		 printf("problem happened while saving\n");
+		 }
+	       */
 
 	return 0;
 }

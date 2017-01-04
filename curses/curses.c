@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
+#include "animation.h"
 
 
 #define ENTER 10
@@ -250,6 +251,7 @@ int main(void){
     delwin(menubar);
     delwin(messagebar);
     endwin();
+
     return EXIT_SUCCESS;
 }
 

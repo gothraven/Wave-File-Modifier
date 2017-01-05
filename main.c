@@ -82,11 +82,19 @@ void Ouvrir(){
  * to save in cas there was already file being used
  * result is satisfying
 */
-void Sauvgarder_mono(){
-  
-
-
-
+void Sauvgarder(){
+   if(!exist){
+     printf("There is no file being used to be saved ...");
+   }else{
+   printf("How you want name your file?");
+   char name[100];   
+   scanf("%s",name);
+   strcat(name,".wav");
+   wave_save(name,wave);
+   printf("Saving ...\n");
+   sleep(1);
+   clrscr();
+   }
 }
 
 int main(){

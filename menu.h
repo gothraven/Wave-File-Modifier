@@ -43,8 +43,11 @@ bool addSubMenu(Menu_t* m, Menu_t* sm);
 void useMenu(Menu_t *m);
 void deleteMenu (Menu_t *m);
 void returnn();
-void Ouvrir();
 void f();
 Menu_t* Prepare_Menu();
+
+
+void Ouvrir();
+void Sauvgarder();
 
 #endif

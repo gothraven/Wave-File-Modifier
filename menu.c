@@ -110,7 +110,7 @@ Menu_t* Prepare_Menu(){
 
 	sm1 = createMenu("Fichier");
 	addMenuAction(sm1,"Ouvrir",Ouvrir);
-        addMenuAction(sm1,"Enregistrer",f); 
+        addMenuAction(sm1,"Enregistrer",Sauvgarder); 
 
 	sm12 = createMenu("Enregistrer comme");  
 	addMenuAction(sm12,"8bits Mono 11.025kHz",f);

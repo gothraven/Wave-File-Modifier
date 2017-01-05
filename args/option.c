@@ -721,28 +721,22 @@ Wave_t * wave_copy(Wave_t * wave){
 return w;
 }
 
-int main(int argc, char** argv) {
+void lunchOptions(){
 
   option_t* opt = NOOPTION;
 
   opt = opt_string(opt, "-i", optOpen);
   opt = opt_string(opt, "-open", optOpen);
-  opt = opt_string(opt, "-load", optOpen);
   opt = opt_string(opt, "-o", optSave);
   opt = opt_string(opt, "-save", optSave);
   opt = opt_void(opt, "-p", optInfo);
   opt = opt_void(opt, "-print", optInfo);
-  /*opt = opt_void(opt, "-RV", wave_reverse);
-
-  opt = opt_void(opt, "-adds", add_signal);
-  opt = opt_2unsignedInt(opt, "-wave_scale", wave_scale);
-  opt = opt_3unsignedInt(opt, "-wave_crop",wave_crop);
-
-  opt = opt_void(opt, "-wave_split", wave_split);
-  opt = opt_2unsignedInt(opt, "-wave_merge", wave_merge);
-
-  opt = opt_void(opt, "-wd", wave_delete);
-*/
+  opt = opt_void(opt, "-r", optReverse);
+  opt = opt_void(opt, "-reverse", optReverse);
+  opt = opt_2unsignedInt(opt, "-c", optCrop);
+  opt = opt_2unsignedInt(opt, "-crop", optCrop);
+  opt = opt_float(opt, "-s", wave_scale);
+  opt = opt_float(opt, "-scale", wave_scale);
 
   process_arguments(opt, argc, argv);
 

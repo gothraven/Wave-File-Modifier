@@ -49,5 +49,12 @@ Menu_t* Prepare_Menu();
 
 void Ouvrir();
 void Sauvgarder();
-
+void Information();
+void Inverser();
+void Decouper();
+void Redimensionner();
+void ajout_Canal();
+void suprrime_Canal();
+void Nouveau();
+void Signal();
 #endif

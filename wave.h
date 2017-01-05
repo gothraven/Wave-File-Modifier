@@ -111,7 +111,7 @@ void wave_crop(Wave_t * wave, uint32_t start, uint32_t end);
 void wave_crop_sec(Wave_t * wave);
 //int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j);
 //bool isBigE();
-//void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli);
+void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli);
 void add_signal(Wave_t * wave, double (*s)(double));
 void wave_scale(Wave_t * wave, double s);
 void wave_delete(Wave_t * wave);

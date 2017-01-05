@@ -108,31 +108,33 @@ Menu_t* Prepare_Menu(){
 	Menu_t* sm12;
 	MENU = createMenu("Main"); 
 
-	sm1 = createMenu("Fichier");
+	sm1 = createMenu("Fichier"); 
+	addMenuAction(sm1,"Nouveau",Nouveau);
 	addMenuAction(sm1,"Ouvrir",Ouvrir);
-        addMenuAction(sm1,"Enregistrer",Sauvgarder); 
+	addMenuAction(sm1,"Enregistrer",Sauvgarder); 
 
 	sm12 = createMenu("Enregistrer comme");  
 	addMenuAction(sm12,"8bits Mono 11.025kHz",f);
 	addMenuAction(sm12,"16bits Stereo 44,1kHz",f);
-        addMenuAction(sm12,"24bits 5.1 192kHz",f); 
-        addMenuAction(sm12,"customisé",f);
+	addMenuAction(sm12,"24bits 5.1 192kHz",f); 
+	addMenuAction(sm12,"customisé",f);
 	addSubMenu(sm1,sm12);
 
-	addMenuAction(sm1,"Information",f);
+	addMenuAction(sm1,"Information",Information);
 	addMenuAction(sm1,"return",returnn);
 	addSubMenu(MENU,sm1);
 
 	sm2 = createMenu("Durée et tempo");
-	addMenuAction(sm2,"Inverser",f);
-	addMenuAction(sm2,"Découper",f);
-	addMenuAction(sm2,"Redimensionner",f);
+	addMenuAction(sm2,"Inverser",Inverser);
+	addMenuAction(sm2,"Découper",Decouper);
+	addMenuAction(sm2,"Redimensionner",Redimensionner);
+	addMenuAction(sm2,"Ajout signal",Signal);
 	addMenuAction(sm2,"return",returnn);
 	addSubMenu(MENU,sm2);
 
 	sm3 = createMenu("Canaux");
-	addMenuAction(sm3,"ajouter",f);
-	addMenuAction(sm3,"suprimer",f);
+	addMenuAction(sm3,"ajouter",ajout_Canal);
+	addMenuAction(sm3,"suprimer",suprrime_Canal);
 	addMenuAction(sm3,"return",returnn);
 	addSubMenu(MENU,sm3);
 

@@ -662,7 +662,6 @@ void add_signal(Wave_t * wave, double (*s)(double)){
 				case(8):wave_set(wave,i,j,(int64_t)((127.0)*(s(k))));break;
 				case(16):wave_set(wave,i,j,(int64_t)((32767.0)*(s(k))));break;
 				case(24):wave_set(wave,i,j,(int64_t)((8388607.0)*(s(k))));break;
-				case(32):wave_set(wave,i,j,(int64_t)((2147483647.0)*(s(k))));break;
 				default : printf("problem\n"); break;
 			}
 		} 

@@ -4,7 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include <curses.h>
+#include <ncurses.h>
 #include <unistd.h>
 #include "menu.h"
 #include "wave.h"
@@ -336,7 +336,7 @@ int main(int argc, char** argv){
 		lunchOptions(argc,argv); 
 		return EXIT_SUCCESS;
 	}
-	//animation();
+	animation();
 
 	Menu_t * MENU = Prepare_Menu();
 	addMenuAction(MENU,"Quitter",quit);

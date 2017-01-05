@@ -1,29 +1,24 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Les membres du groupes ###
 
-### What is this repository for? ###
+* LARANJIRO Frederic " U.... "
+* ZAGHBANE Safiy Errahmane " U21515927 "
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Les options utiliser? ###
 
-### How do I get set up? ###
+* -h ou -help : pour voir tous les options que vous pouvez utiliser
+* -i
+* -o
+*
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
+### Une compte rendu ###
 
 * Writing tests
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+### le deuxieme projet? ###
 
-* Repo owner or admin
+* c'etaits 
 * Other community or team contact

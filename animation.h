@@ -1,7 +1,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include <curses.h>
+#include <ncurses.h>
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>

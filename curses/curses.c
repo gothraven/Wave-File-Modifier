@@ -179,13 +179,12 @@ int scroll_menu(WINDOW **items,int count,int menu_start_col){
 }
 
 int main(void){
-    //animation();
+    animation();
     int key;
     WINDOW *menubar;
     WINDOW *messagebar;
     WINDOW **items[3];
     init_curses();
-
     bkgd(COLOR_PAIR(1));
     menubar=subwin(stdscr,1,80,0,0);
     messagebar=subwin(stdscr,1,79,23,1);

@@ -13,7 +13,7 @@
 
 
 typedef struct {
-  double x,y,z;
+	double x,y,z;
 }spaceblob;
 
 

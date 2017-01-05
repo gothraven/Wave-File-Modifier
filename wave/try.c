@@ -5,13 +5,101 @@
 #include <math.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "wave.h"
 
-/*
- / To creat a new wave from scratch
- / result is satisfying
- / copied and used
-*/
+
+#define T_ENTETE 44
+
+unsigned char buffer2[2];
+unsigned char buffer4[4];
+
+typedef struct{
+	/* Le mot "RIFF" */
+	char riff[4];
+
+	/* La taille du fichier S = D + 44 - 8
+	 * Ou subTaille2 + 44 - 8 */
+	uint32_t taille;
+
+	/* Le mot "WAVE" */
+	char wave[4];
+
+	/* Le mot "fmt " */
+	char fmt[4];
+
+	/* 16 ce qui est la taille de riffe + taille + wave + fmt */
+	uint32_t subTaille1;
+
+	/* Format du fichier */
+	uint16_t formatAudio;
+
+	/* Nombres de canaux = c*/
+	uint16_t nombreCanaux;
+
+	/* Fréquence d'échantillonnage */
+	uint32_t freqEch;
+
+	/* ByteRate = r
+	 * Nombre d'ocets par seconde
+	 ** Calcul :
+	 *===> freqEch * nombreCanaux * bitsParEch / 8 */
+	uint32_t ByteRate;
+
+	/* Alignement = b
+	 * Nombre d'octets par échantillon
+	 * Englobe tous les canaux !
+	 ** Calcul :
+	 *===> nombreCanaux * bitsParEch / 8 */
+	uint16_t align;
+
+	/* Bits par échantillon = p */
+	uint16_t bitsParEch;
+
+	/* Le mot "data" et la
+	 * taille des données */
+	char Ndata[4];
+
+	/* Taille des données = D*/
+	uint32_t subTaille2;
+
+	//  void * data;
+	/* A allouer dynamiquement.
+	 * Contiendra les données */
+}WAVE;
+
+typedef struct{
+
+	WAVE * header;
+	char * data;
+
+}Wave_t;
+
+typedef struct{
+
+	int sec;
+	int min;
+	int heure;
+}Time_t;
+
+void clrscr(){
+	system("@cls||clear");
+}
+
+char* seconds_to_time(float raw_seconds);
+bool headerWave_load(Wave_t * wave, FILE * ptr);
+bool load_data(Wave_t* wave, FILE * ptr);
+uint32_t time2oct(Wave_t * wave,Time_t * time);
+void ask_time(Time_t * time);
+bool verify_time(Wave_t * wave,Time_t * time);
+int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j);
+bool headerWave_load_fast(Wave_t * wave, FILE * ptr);
+void wave_delete(Wave_t * wave);
+Wave_t * wave_merge(Wave_t ** waveTab,int c);
+Wave_t * wave_merge_all(Wave_t ** waveTab,int c);
+Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2);
+Wave_t ** wave_split(Wave_t * wave, int* pc);
+void wave_canal(Wave_t ** wave, uint16_t c);
+Wave_t* change_canal(Wave_t * wave,uint16_t c);
+
 Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 
 	uint16_t b = c * (p/8);
@@ -34,19 +122,18 @@ Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 	newWave->header->nombreCanaux = c;
 	newWave->header->freqEch = f;
 	newWave->header->align = b;
+
 	newWave->header->ByteRate = r;
+
 	newWave->header->bitsParEch = p;
+
 	newWave->header->subTaille2 = D;
+
 
 	return newWave;
 
 }
 
-/*
- / To load a wave file from the hard drive
- / result is satisfying
- / copied and used
-*/
 Wave_t* wave_load(Wave_t * wave, const char* fname){
 	FILE * ptr; 
 	ptr = fopen(fname, "rb");
@@ -61,19 +148,17 @@ Wave_t* wave_load(Wave_t * wave, const char* fname){
 		free(name);
 
 	}else{
+
 		printf("Opening file..\n\n");
 		headerWave_load_fast(wave,ptr);
-		//headerWave_load(wave,ptr); 
+		//headerWave_load(wave,ptr);
 		load_data(wave,ptr);
 		return wave;
+
 	}
 }
 
-/*
- / fonctions that loads the wave header one by one
- / result is satisfying
- / copied and used
-*/
+
 bool load_riff(Wave_t * wave,FILE * ptr){
 	return (fread(wave->header->riff,sizeof(wave->header->riff),1,ptr)==1);
 }
@@ -126,25 +211,18 @@ bool load_subTaille2(FILE * ptr){
 	return (fread(buffer4,sizeof(buffer4),1,ptr)==1);
 }
 
-/*
- / To load a the data of a wave file
- / result is satisfying
- / copied and used
-*/
 bool load_data(Wave_t * wave, FILE * ptr){
+
 	wave->data = malloc(wave->header->subTaille2*sizeof(char));
 	if(wave->data == NULL){
 		fprintf(stderr,"Not enough memory space to load the wave data...\n");
 	}
 	if(fread(wave->data,sizeof(unsigned char),wave->header->subTaille2,ptr)!=1) return false;
 	return true;
+
 }
 
-/*
- / To just load a file it doesn't matter if its a wave or not
- / result is satisfying
- / copied and used
-*/
+
 bool headerWave_load_fast(Wave_t * wave, FILE * ptr){
 	wave->header = malloc(sizeof(WAVE));
 
@@ -433,7 +511,7 @@ int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 
 
 		if(octParCan==1){
-			ampli =wave->data[place];
+			ampli = wave->data[place];
 		}else if(octParCan==2){
 			ampli = wave->data[place] | (wave->data[place+1]<<8);
 		}else if(octParCan==3){
@@ -874,26 +952,28 @@ Wave_t * wave_concat(Wave_t ** waveTab){
 }
 
 
-/*
+
 int main(void){
 
-	//Wave_t * wave = wave_load(wave,"file2.wav");
-	//printf("file loaded succesfully\n");
+	Wave_t * wave = wave_load(wave,"bugsbunny1.wav");
+	printf("file loaded succesfully\n");
 
 	int skipe;
 	printf("\nentre (1) to skip?");
 	scanf("%d",&skipe);
 	clrscr();
-        Wave_t * waveTab[3];
+        /*Wave_t * waveTab[3];
         waveTab[0] = wave_load(waveTab[0],"canal21644.wav"); 
         waveTab[1] = wave_load(waveTab[1],"canal1644.wav");
         waveTab[2] = NULL;
 	Wave_t* wave = wave_concat(waveTab);
-	wave_info(wave);
+	*/
+        Wave_t * waveNew = wave_copy(wave);
+        wave_info(waveNew);
      
 	//change_presion(wave,8);
         //wave_info(wave);
-        wave_save("result_final.wav",wave);
+        wave_save("copy.wav",waveNew);
 	/*printf("\nentre (1) to skip?");
 	  scanf("%d",&skipe);
 	  clrscr();
@@ -926,7 +1006,6 @@ int main(void){
 	}else{
 	printf("problem happened while saving\n");
 	}
-	    *//*
 		 if(wave_save("result1.1.wav",Tab[0])){
 		 printf("succesfully saved\n");
 		 }else{
@@ -937,10 +1016,10 @@ int main(void){
 		 }else{
 		 printf("problem happened while saving\n");
 		 }
-	       
+	     */  
 
 	return 0;
 }
-*/
+
 
 

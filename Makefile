@@ -10,6 +10,7 @@ default: $(EXEC)
  
 menu.o: menu.c menu.h
 args.o: args.c args.h
+wave.o: wave.c wave.h
 animation.o: animation.c animation.h
 main.o: main.c args.h wave.h menu.h animation.h
 %.o: %.c

@@ -17,16 +17,39 @@ bool exist = false;
 
 Wave_t* wave = NULL;
 
+/*
+ * To exit the programe but make sure that the used want save his file or not before exiting
+ * result is satisfying
+*/
 void quit() {
 	if(exist){
-		//save first
+		printf("There is already a wave file being used, don't you want save it? (y)es, (n)o\n");
+		char key ='u';
+		while(key != 'Y' && key != 'y' && key !='N' && key !='n'){ 
+			scanf("%c",&key);
+		}
+		if(key=='Y' || key=='y'){
+			printf("How you want name your file?");
+			char name[100];   
+			scanf("%s",name);
+			strcat(name,".wav");
+			wave_save(name,wave);
+			printf("Saving ...\n");
+			sleep(1);
+			clrscr();
+		}
 	}
 	cont = false;
 }
 
+/*
+ * Opens and loads a wave file from the hard drave but make sur to ask the user
+ * to save in cas there was already file being used
+ * result is satisfying
+*/
 void Ouvrir(){
 	if(exist){
-		printf("There is already a wave file being used, do you want save it? (y)es, (n)o\n");
+		printf("There is already a wave file being used, don't you want save it? (y)es, (n)o\n");
 		char key ='u';
 		while(key != 'Y' && key != 'y' && key !='N' && key !='n'){ 
 			scanf("%c",&key);
@@ -54,8 +77,13 @@ void Ouvrir(){
 	exist = true;
 }
 
-void Sauvgarder(){
-
+/*
+ * Opens and loads a wave file from the hard drave but make sur to ask the user
+ * to save in cas there was already file being used
+ * result is satisfying
+*/
+void Sauvgarder_mono(){
+  
 
 
 

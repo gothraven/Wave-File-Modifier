@@ -110,11 +110,15 @@ Menu_t* Prepare_Menu(){
 
 	sm1 = createMenu("Fichier");
 	addMenuAction(sm1,"Ouvrir",Ouvrir);
+        addMenuAction(sm1,"Enregistrer",f); 
 
-	sm12 = createMenu("Enregistrer");  
-	addMenuAction(sm12,"Sauvegrader mono",f);
-	addMenuAction(sm12,"Sauvegrader stero",f);
+	sm12 = createMenu("Enregistrer comme");  
+	addMenuAction(sm12,"8bits Mono 11.025kHz",f);
+	addMenuAction(sm12,"16bits Stereo 44,1kHz",f);
+        addMenuAction(sm12,"24bits 5.1 192kHz",f); 
+        addMenuAction(sm12,"customisé",f);
 	addSubMenu(sm1,sm12);
+
 	addMenuAction(sm1,"Information",f);
 	addMenuAction(sm1,"return",returnn);
 	addSubMenu(MENU,sm1);

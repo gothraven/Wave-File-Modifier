@@ -11,10 +11,10 @@
 unsigned char buffer2[2];
 unsigned char buffer4[4];
 /*
-   / To creat a new wave from scratch
-   / result is satisfying
-   / copied and used
- */
+ * To creat a new wave from scratch
+ * result is satisfying
+ * copied and used
+*/
 Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 
 	uint16_t b = c * (p/8);
@@ -46,10 +46,10 @@ Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 }
 
 /*
-   / To load a wave file from the hard drive
-   / result is satisfying
-   / copied and used
- */
+ * To load a wave file from the hard drive
+ * result is satisfying
+ * copied and used
+*/
 Wave_t* wave_load(Wave_t * wave, const char* fname){
 	FILE * ptr; 
 	ptr = fopen(fname, "rb");
@@ -73,10 +73,10 @@ Wave_t* wave_load(Wave_t * wave, const char* fname){
 }
 
 /*
-   / fonctions that loads the wave header one by one
-   / result is satisfying
-   / copied and used
- */
+ * fonctions that loads the wave header one by one
+ * result is satisfying
+ * copied and used
+*/
 bool load_riff(Wave_t * wave,FILE * ptr){
 	return (fread(wave->header->riff,sizeof(wave->header->riff),1,ptr)==1);
 }
@@ -130,10 +130,10 @@ bool load_subTaille2(FILE * ptr){
 }
 
 /*
-   / To load a the data of a wave file
-   / result is satisfying
-   / copied and used
- */
+ * To load a the data of a wave file
+ * result is satisfying
+ * copied and used
+*/
 bool load_data(Wave_t * wave, FILE * ptr){
 	wave->data = malloc(wave->header->subTaille2*sizeof(char));
 	if(wave->data == NULL){
@@ -144,10 +144,10 @@ bool load_data(Wave_t * wave, FILE * ptr){
 }
 
 /*
-   / To just load a file it doesn't matter if its a wave or not
-   / result is satisfying
-   / copied and used
- */
+ * To just load a file it doesn't matter if its a wave or not
+ * result is satisfying
+ * copied and used
+*/
 bool headerWave_load_fast(Wave_t * wave, FILE * ptr){
 	wave->header = malloc(sizeof(WAVE));
 
@@ -163,10 +163,10 @@ bool headerWave_load_fast(Wave_t * wave, FILE * ptr){
 }
 
 /*
-   / To load a wave file and make sure that its a wave file and not something else
-   / result is satisfying
-   / copied and used
- */
+ * To load a wave file and make sure that its a wave file and not something else
+ * result is satisfying
+ * copied and used
+*/
 bool headerWave_load(Wave_t * wave, FILE * ptr){
 	wave->header = malloc(sizeof(WAVE));
 
@@ -215,10 +215,10 @@ bool headerWave_load(Wave_t * wave, FILE * ptr){
 }
 
 /*
-   / To save a wave file
-   / result is satisfying
-   / copied and used
- */
+ * To save a wave file
+ * result is satisfying
+ * copied and used
+*/
 bool wave_save(const char* fname, Wave_t * wave){
 	FILE *fp = fopen(fname, "wb+");
 	if(fp == NULL){
@@ -233,10 +233,10 @@ bool wave_save(const char* fname, Wave_t * wave){
 }
 
 /*
-   / To print the informations of a wave file
-   / result is satisfying
-   / copied and used
- */
+ * To print the informations of a wave file
+ * result is satisfying
+ * copied and used
+*/
 void wave_info(Wave_t * wave){
 
 	printf("information : \n\n");
@@ -262,10 +262,10 @@ void wave_info(Wave_t * wave){
 }
 
 /*
-   / To convert seconds into a time
-   / result is satisfying
-   / copied and used
- */
+ * To convert seconds into a time
+ * result is satisfying
+ * copied and used
+*/
 char* seconds_to_time(float raw_seconds) {
 	char *hms;
 	int hours, hours_residue, minutes, seconds, milliseconds;
@@ -293,10 +293,10 @@ char* seconds_to_time(float raw_seconds) {
 }
 
 /*
-   / To reverse the way we play a wave file
-   / result is satisfying
-   / copied and used
- */
+ * To reverse the way we play a wave file
+ * result is satisfying
+ * copied and used
+*/
 void wave_reverse(Wave_t * wave){
 	uint32_t nb_oct = wave->header->subTaille2;
 	unsigned char reverse[nb_oct];
@@ -312,10 +312,10 @@ void wave_reverse(Wave_t * wave){
 }
 
 /*
-   / To get a time 
-   / result is satisfying
-   / copied and used
- */
+ * To get a time 
+ * result is satisfying
+ * copied and used
+*/
 void get_time(Wave_t * wave, Time_t * time){
 
 	ask_time(time);
@@ -328,10 +328,10 @@ void get_time(Wave_t * wave, Time_t * time){
 }
 
 /*
-   / To ask for the time hours after minutes then seconds 
-   / result is satisfying
-   / copied and used
- */
+ * To ask for the time hours after minutes then seconds 
+ * result is satisfying
+ * copied and used
+*/
 void ask_time(Time_t * time){
 
 	printf("heure :");
@@ -344,19 +344,19 @@ void ask_time(Time_t * time){
 }
 
 /*
-   / To verify a time given if its valid or not
-   / result is satisfying
-   / copied and used
- */
+ * To verify a time given if its valid or not
+ * result is satisfying
+ * copied and used
+*/
 bool verify_time(Wave_t * wave,Time_t * time){
 	return (time2oct(wave,time) > 0 ) && (time2oct(wave,time) < wave->header->subTaille2);
 }
 
 /*
-   / To convert a time given into octs 
-   / result is satisfying
-   / copied and used
- */
+ * To convert a time given into octs 
+ * result is satisfying
+ * copied and used
+*/
 uint32_t time2oct(Wave_t * wave,Time_t * time){
 
 	uint32_t result;
@@ -366,10 +366,10 @@ uint32_t time2oct(Wave_t * wave,Time_t * time){
 }
 
 /*
-   / To crop a wave file
-   / result is satisfying
-   / copied and used
- */
+ * To crop a wave file
+ * result is satisfying
+ * copied and used
+*/
 void wave_crop(Wave_t * wave, uint32_t start, uint32_t end){
 
 	uint32_t swip;
@@ -392,10 +392,10 @@ void wave_crop(Wave_t * wave, uint32_t start, uint32_t end){
 }
 
 /*
-   / To prepare for the wave_crop by asking for the time when u will crop
-   / result is satisfying
-   / copied and used
- */
+ * To prepare for the wave_crop by asking for the time when u will crop
+ * result is satisfying
+ * copied and used
+*/
 void wave_crop_sec(Wave_t * wave){
 	Time_t * time_start = malloc(sizeof(Time_t));
 	Time_t * time_end = malloc(sizeof(Time_t));
@@ -410,10 +410,10 @@ void wave_crop_sec(Wave_t * wave){
 }
 
 /*
-   / To get a sample which exists in the bloc i and the colon j
-   / result is not satisfying
-   / not copied and not being used
- */
+ * To get a sample which exists in the bloc i and the colon j
+ * result is not satisfying
+ * not copied and not being used
+*/
 int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 	uint16_t octParBloc = wave->header->align;
 	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
@@ -446,10 +446,10 @@ int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 }
 
 /*
-   / To check if the computer is a little or big Endian
-   / result is satisfying
-   / copied and used
- */
+ * To check if the computer is a little or big Endian
+ * result is satisfying
+ * copied and used
+*/
 bool isBigE(){
 	int a = 1;
 	char * p = (char*)&a;
@@ -457,10 +457,10 @@ bool isBigE(){
 }
 
 /*
-   / To add a mathimathic fonction graphe into a wave file data
-   / result is not satisfying
-   / not copied and not being used
- */
+ * To add a mathimathic fonction graphe into a wave file data
+ * result is not satisfying
+ * not copied and not being used
+*/
 void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli){
 	uint16_t octParBloc = wave->header->align;
 	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
@@ -529,10 +529,10 @@ void wave_set(Wave_t * wave, uint32_t i, uint16_t j, int64_t ampli){
 }
 
 /*
-   / To add a mathimathic fonction graphe into a wave file data
-   / result is satisfying
-   / copied and being used
- */
+ * To add a mathimathic fonction graphe into a wave file data
+ * result is satisfying
+ * copied and being used
+*/
 void add_signal(Wave_t * wave, double (*s)(double)){
 	double k=0;
 	for(uint16_t i=0; i<(wave->header->subTaille2/wave->header->align); i+=wave->header->nombreCanaux){
@@ -550,10 +550,10 @@ void add_signal(Wave_t * wave, double (*s)(double)){
 }
 
 /*
-   / To make the file goes faster or slower depending on the factor passed
-   / result is satisfying
-   / copied and being used
- */
+ * To make the file goes faster or slower depending on the factor passed
+ * result is satisfying
+ * copied and being used
+*/
 void wave_scale(Wave_t * wave, double s){
 	wave->header->freqEch *=s ; 
 	wave->header->ByteRate = wave->header->freqEch * wave->header->align;
@@ -561,10 +561,10 @@ void wave_scale(Wave_t * wave, double s){
 
 
 /*
-   / To delete a wave file from the momery
-   / result is satisfying
-   / copied and being used
- */
+ * To delete a wave file from the momery
+ * result is satisfying
+ * copied and being used
+*/
 void wave_delete(Wave_t * wave){
 	free(wave->header);
 	free(wave->data);
@@ -572,10 +572,10 @@ void wave_delete(Wave_t * wave){
 }
 
 /*
-   / To splite a wave file into a table of wave each one of them contains a chanal of the original wave
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
+ * To splite a wave file into a table of wave each one of them contains a chanal of the original wave
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
  */
 Wave_t ** wave_split(Wave_t * wave, int* pc){
 	Wave_t ** waveTab = malloc(sizeof(Wave_t)*(wave->header->nombreCanaux+1));
@@ -594,11 +594,11 @@ Wave_t ** wave_split(Wave_t * wave, int* pc){
 }
 
 /*
-   / To merge two wave files into only one
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
- */
+ * To merge two wave files into only one
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
+*/
 Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2){
 	Wave_t * wave = wave_new(wave1->header->freqEch,wave1->header->bitsParEch,1,wave1->header->subTaille2/wave1->header->align);
 	for(uint32_t i=0; i<wave1->header->subTaille2/wave1->header->align; i++){
@@ -608,11 +608,11 @@ Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2){
 }
 
 /*
-   / To merge all the wave files inside the table inside one wave that has c waves which is how many wave inside the table too
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
- */
+ * To merge all the wave files inside the table inside one wave that has c waves which is how many wave inside the table too
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
+*/
 Wave_t * wave_merge_all(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
 	for(uint32_t i=0; i<waveTab[0]->header->subTaille2/waveTab[0]->header->align; i++){
@@ -628,10 +628,10 @@ Wave_t * wave_merge_all(Wave_t ** waveTab,int c){
 
 
 /*
-   / to find how much waves in a table
-   / result is satisfying
-   / not copied and not being used
- */
+ * to find how much waves in a table
+ * result is satisfying
+ * not copied and not being used
+*/
 int tailleTab(Wave_t**waveTab){
 	int i=0;
 	while(waveTab[i] != NULL) i++;
@@ -639,11 +639,11 @@ int tailleTab(Wave_t**waveTab){
 }
 
 /*
-   / to merge some canals when we want have less canals then we had
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
- */
+ * to merge some canals when we want have less canals then we had
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
+*/
 Wave_t * wave_merge(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
 	int k = tailleTab(waveTab);
@@ -665,11 +665,11 @@ Wave_t * wave_merge(Wave_t ** waveTab,int c){
 
 
 /* 
-   / to add more canals  
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
- */
+ * to add more canals  
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
+*/
 Wave_t * wave_doublicat(Wave_t * wave,int c){
 	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,wave->header->subTaille2/wave->header->align);
 	int nb_Can = wave->header->nombreCanaux;
@@ -686,11 +686,11 @@ Wave_t * wave_doublicat(Wave_t * wave,int c){
 }
 
 /*
-   / to change the wave's number of channels
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not being used
- */
+ * to change the wave's number of channels
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not being used
+*/
 void wave_canal(Wave_t** wave, uint16_t c){
 	int p = 0;
 	uint16_t nb_Can = (*wave)->header->nombreCanaux;
@@ -703,10 +703,10 @@ void wave_canal(Wave_t** wave, uint16_t c){
 }
 
 /*
-   / to print the amplitude we have in a certain channel into a txt file
-   / result is satisfying
-   / not copied and not being used
- */
+ * to print the amplitude we have in a certain channel into a txt file
+ * result is satisfying
+ * not copied and not being used
+*/
 void get_canal(Wave_t * wave,int c,const char * fname){
 	FILE * fp = fopen(fname,"wb+");
 	for(uint32_t i=0; i<wave->header->subTaille2/wave->header->align; i++){
@@ -717,13 +717,12 @@ void get_canal(Wave_t * wave,int c,const char * fname){
 
 
 /*
-   / to change the wave's number of channels
-   / (wave_get wave_set) are not used
-   / result is satisfying
-   / copied and being used
- */
+ * to change the wave's number of channels
+ * (wave_get wave_set) are not used
+ * result is satisfying
+ * copied and being used
+*/
 Wave_t* change_canal(Wave_t * wave,uint16_t c){
-
 	Wave_t * newWave = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,(wave->header->subTaille2/wave->header->align));
 	if(wave->header->nombreCanaux>c){
 		uint32_t k =0;
@@ -750,11 +749,11 @@ Wave_t* change_canal(Wave_t * wave,uint16_t c){
 }
 
 /*
-   / to change the wave's precision of a file
-   / (wave_get wave_set) are used
-   / result is not satisfying
-   / not copied and not bieng used
- */
+ * to change the wave's precision of a file
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not bieng used
+*/
 void change_precision(Wave_t* wave,uint16_t p){
 	Wave_t * newWave = wave_new(wave->header->freqEch,p,wave->header->nombreCanaux,(wave->header->subTaille2/wave->header->align));
 
@@ -828,10 +827,10 @@ void change_precision(Wave_t* wave,uint16_t p){
 }
 
 /*
-   / to just test the wave_get and wave_set
-   / result is not satisfying
-   / not copied and not being used
- */
+ * to just test the wave_get and wave_set
+ * result is not satisfying
+ * not copied and not being used
+*/
 Wave_t * wave_copy(Wave_t * wave){
 	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,wave->header->nombreCanaux,wave->header->subTaille2/wave->header->align);
 	for(uint32_t i=0; i<(wave->header->subTaille2/wave->header->align); i++){
@@ -843,10 +842,10 @@ Wave_t * wave_copy(Wave_t * wave){
 }
 
 /*
-   / to find and returns the biggest wave file's number of samples
-   / result is satisfying
-   / not copied and not being used
- */
+ * to find and returns the biggest wave file's number of samples
+ * result is satisfying
+ * not copied and not being used
+*/
 
 uint32_t find_biggest_wave(Wave_t ** waveTab){
 
@@ -864,10 +863,10 @@ uint32_t find_biggest_wave(Wave_t ** waveTab){
 
 
 /*
-   / to concate n wave files
-   / result is not satisfying
-   / not copied or or being used
- */
+ * to concate n wave files
+ * result is not satisfying
+ * not copied or or being used
+*/
 Wave_t * wave_concat(Wave_t ** waveTab){
 	Wave_t * wave =wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,tailleTab(waveTab),find_biggest_wave(waveTab));
 	uint32_t k=0;

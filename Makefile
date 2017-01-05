@@ -7,20 +7,25 @@ INCF= -lm -lncurses
 .PHONY: default clean
  
 default: $(EXEC)
- 
+
 menu.o: menu.c menu.h
 args.o: args.c args.h
 wave.o: wave.c wave.h
 animation.o: animation.c animation.h
 main.o: main.c args.h wave.h menu.h animation.h
 %.o: %.c
-	@echo "\033[32mCompiling $@ from $< \033[39m"
+	@echo "\033[33mCompiling \033[1m\033[39m$@\033[21m \033[33mfrom \033[1m\033[39m$<\033[21m \033[33m"
 	@$(CC) -o $@ -c $< $(CFLAGS) $(INCF)
  
 $(EXEC): $(OBJECTS)
-	@echo "compiling done \033[34mApp.exe\033[39m created"
+	@echo " "
+	@echo "compiling is done ===> \033[1m\033[34mApp.exe\033[21m \033[32mis created"
+	@echo " "
 	@$(CC) -o $@ $^ $(INCF)
  
 clean:
-	rm -rf $(EXEC) $(OBJECTS) $(SOURCES:.c=.c~) $(SOURCES:.c=.h~) Makefile~
+	@echo " "
+	@echo "\033[9m$(EXEC) $(OBJECTS) \033[29m"
+	@echo " "
+	@rm -rf $(EXEC) $(OBJECTS) $(SOURCES:.c=.c~) $(SOURCES:.c=.h~) Makefile~
 

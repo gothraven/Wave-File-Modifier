@@ -122,12 +122,13 @@ int tailleTab(Wave_t**waveTab);
 Wave_t * wave_merge(Wave_t ** waveTab,int c);
 Wave_t * wave_doublicat(Wave_t * wave,int c);
 void wave_canal(Wave_t** wave, uint16_t c);
-//void get_canal(Wave_t * wave,int c,const char * fname);
+void get_canal(Wave_t * wave,int c,const char * fname);
 Wave_t* change_canal(Wave_t * wave,uint16_t c);
-//void change_precision(Wave_t* wave,uint16_t p);
-//Wave_t * wave_copy(Wave_t * wave);
-//uint32_t find_biggest_wave(Wave_t ** waveTab);
-//Wave_t * wave_concat(Wave_t ** waveTab);
+void change_precision(Wave_t* wave,uint16_t p);
+void wave_volume(Wave_t* wave,float v);
+Wave_t * wave_copy(Wave_t * wave);
+uint32_t find_biggest_wave(Wave_t ** waveTab);
+Wave_t * wave_concat(Wave_t ** waveTab);
 
 
 #endif

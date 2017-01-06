@@ -152,8 +152,7 @@ Menu_t* Prepare_Menu(){
 	sm12 = createMenu("Save as");  
 	addMenuAction(sm12,"8bits Mono 11.025kHz",bits8Mon);
 	addMenuAction(sm12,"16bits Stereo 44,1kHz",bits16Stero);
-	addMenuAction(sm12,"24bits 5.1 192kHz",bits24_6Canaux); 
-	addMenuAction(sm12,"Costumized",f);
+	addMenuAction(sm12,"24bits 5.1 192kHz",bits24_6Canaux);
 	addSubMenu(sm1,sm12);
 
 	addMenuAction(sm1,"Information",Information);
@@ -181,8 +180,8 @@ Menu_t* Prepare_Menu(){
 	addSubMenu(MENU,sm3);
 
 	sm4 = createMenu("Volume Height");
-	addMenuAction(sm4,"More volume",f);
-	addMenuAction(sm4,"Less volume",f);
+	addMenuAction(sm4,"More volume",Augument_Volume);
+	addMenuAction(sm4,"Less volume",Baisser_Volume);
 	addMenuAction(sm4,"return",returnn);
 	addSubMenu(MENU,sm4);
 

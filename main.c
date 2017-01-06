@@ -319,7 +319,7 @@ void bits8Mon(){
                 change_precision(wave,8);
                 wave_save(name,wave);
 		printf("Saving ...\n");
-		sleep(5);
+		sleep(1);
 		clrscr();
 	}
 }
@@ -336,7 +336,7 @@ void bits16Stero(){
                 change_precision(wave,16);
 		wave_save(name,wave);
 		printf("Saving ...\n");
-		sleep(5);
+		sleep(1);
 		clrscr();
 	}
 }
@@ -353,11 +353,36 @@ void bits24_6Canaux(){
                 change_precision(wave,24);
 		wave_save(name,wave);
 		printf("Saving ...\n");
-		sleep(5);
+		sleep(1);
 		clrscr();
 	}
 }
 
+void Augument_Volume(){
+     if(!exist){
+	printf("There is no file being used to be saved ...");
+     }else{
+        printf("How many volume bars you want add?");
+        float choix; scanf("%f",&choix);   
+        wave_volume(wave,choix);
+        printf("Highering the volume ...\n");
+        sleep(1);
+        clrscr();
+     }
+}
+
+void Baisser_Volume(){
+     if(!exist){
+	printf("There is no file being used to be saved ...");
+     }else{
+        printf("How many volume bars you want delete?");
+        float choix; scanf("%f",&choix);   
+        wave_volume(wave,(1/choix));
+        printf("Lowering the volume ...\n");
+        sleep(1);
+        clrscr();
+     }
+}
 
 void optHelp(){
  printf("  -i OR -open [filename].wav, for opening a wave file\n\n");

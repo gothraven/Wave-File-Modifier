@@ -831,7 +831,19 @@ void change_precision(Wave_t* wave,uint16_t p){
 	wave_info(newWave);
 	wave_save("prs.wav",newWave);
 }
-
+/*
+ * to change the wave's volume
+ * (wave_get wave_set) are used
+ * result is not satisfying
+ * not copied and not bieng used
+ */
+void wave_volume(Wave_t* wave,float v){
+     for(uint32_t i=0; i<wave->header->subTaille2/wave->header->align; i++){
+		for(int j=0; j<wave->header->nombreCanaux; j++){
+			wave_set(wave,i,j,(uint64_t)(v*wave_get(wave,i,j)));
+		}
+	}
+}
 /*
  * to just test the wave_get and wave_set
  * result is not satisfying

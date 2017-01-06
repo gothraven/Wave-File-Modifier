@@ -63,5 +63,7 @@ void Addtan();
 void bits8Mon();
 void bits16Stero();
 void bits24_6Canaux();
+void Augument_Volume();
+void Baisser_Volume();
 
 #endif

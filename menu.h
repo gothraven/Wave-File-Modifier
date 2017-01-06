@@ -37,6 +37,7 @@ struct Menu{  // structure principal des menu
 };
 
 void clrscr();
+int ask_choice(void);
 Menu_t* createMenu(const char * text);
 bool addMenuAction(Menu_t* m, const char* text, void(*f)());
 bool addSubMenu(Menu_t* m, Menu_t* sm);
@@ -56,5 +57,11 @@ void Redimensionner();
 void ajout_Canal();
 void suprrime_Canal();
 void Nouveau();
-void Signal();
+void Addcos();
+void Addsin();
+void Addtan();
+void bits8Mon();
+void bits16Stero();
+void bits24_6Canaux();
+
 #endif

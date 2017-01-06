@@ -416,7 +416,7 @@ void wave_crop_sec(Wave_t * wave){
  */
 int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 	uint16_t octParBloc = wave->header->align;
-	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
+	uint32_t nb_Blocs = (wave->header->subTaille2)/(wave->header->nombreCanaux * wave->header->bitsParEch/8);
 	uint16_t octParCan = (wave->header->bitsParEch/8);
 	int64_t ampli;
 
@@ -429,7 +429,7 @@ int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 	}else{
 
 		uint64_t place = (i)*(octParBloc)+(j)*(octParCan);
-
+             
 
 		if(octParCan==1){
 			ampli =wave->data[place];
@@ -583,12 +583,12 @@ Wave_t ** wave_split(Wave_t * wave, int* pc){
 	for(i=0; i<wave->header->nombreCanaux; i++){
 		waveTab[i] = wave_new(wave->header->freqEch,wave->header->bitsParEch,1,wave->header->subTaille2/wave->header->align);
 		for(j=0; j<(wave->header->subTaille2/wave->header->align); j++){
-			wave_set(waveTab[i],j,0,(wave_get(wave,j,i)));   
+			wave_set(waveTab[i],j,0,wave_get(wave,j,i));   
 		}
 	}
-	waveTab[i] = NULL;
+	//waveTab[i] = NULL;
 	*pc = wave->header->nombreCanaux;
-	wave_delete(wave);
+	//wave_delete(wave);
 	return waveTab;
 }
 
@@ -651,8 +651,13 @@ Wave_t * wave_merge(Wave_t ** waveTab,int c){
 			if( j < c-1){	                                                
 				wave_set(wave,i,j,wave_get(waveTab[j],i,0));
 			}else{
-				Wave_t * rest = wave_merge_deux(waveTab[j],waveTab[j+1]);
-				for(uint32_t m=0; m<(rest->header->subTaille2/rest->header->align); m++){
+                                Wave_t * rest;
+                                if(j=k-1){
+                                  rest = waveTab[j];
+                                }else{
+                                  rest = wave_merge_deux(waveTab[j],waveTab[j+1]);
+                                }
+                                for(uint32_t m=0; m<(rest->header->subTaille2/rest->header->align); m++){
 					wave_set(wave,m,c-1,wave_get(rest,m,0));
 				}
 

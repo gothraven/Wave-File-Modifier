@@ -34,6 +34,7 @@ void optInfo();
 void optReverse();
 void optCrop(unsigned int a,unsigned int b);
 void optScale(float f);
+void optHelp();
 
 
 #endif

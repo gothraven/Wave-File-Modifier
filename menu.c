@@ -6,10 +6,31 @@
 #include <curses.h>
 #include"menu.h"
 
+/*
+ * to clear the screen
+ * result is satisfying
+ */
 void clrscr(){
 	system("@cls||clear");
 }
-// la fonction de c_reation des menu
+
+/*
+ * to ask for a choice
+ * result is satisfying
+ */
+int ask_choice(void){
+    int ch;
+    ch = getchar();
+    while('\n'!=getchar());
+
+    return ch;
+}
+
+/*
+ * the fonction that creats the menu
+ * result is satisfying
+ */
+
 Menu_t* createMenu(const char * text){
 	Menu_t * Menu = malloc(sizeof(Menu_t));
 	Menu-> root = NULL;
@@ -19,7 +40,10 @@ Menu_t* createMenu(const char * text){
 	return Menu;
 }
 
-//fonction pour ajouter une fonction a un menu
+/*
+ * the fonction that adds a fonction to a menu
+ * result is satisfying
+ */
 bool addMenuAction(Menu_t* m, const char* text, void(*f)()){
 	if (m->cmpt != 9){
 		m->items[m->cmpt] = malloc(sizeof(Type_t));
@@ -36,7 +60,10 @@ bool addMenuAction(Menu_t* m, const char* text, void(*f)()){
 	}
 }
 
-//fonction pour ajouter des sous menu
+/*
+ * the fonction that add a menu to another to become its submenu
+ * result is satisfying
+ */
 bool addSubMenu(Menu_t* m, Menu_t* sm){
 	if(m->cmpt!=9){
 		sm->root =  m;
@@ -52,7 +79,10 @@ bool addSubMenu(Menu_t* m, Menu_t* sm){
 	}
 }
 
-//fonction pour lancer le menu
+/*
+ * the fonction that lunches the menu
+ * result is satisfying
+ */
 void useMenu(Menu_t *m){
 	int choix;
 	printf("\n");
@@ -65,7 +95,7 @@ void useMenu(Menu_t *m){
 			printf("  %d - %s\n",i+1,m->items[i]->item->sous_menu->desc);
 		}
 	}
-	printf("\nchoix?\n");
+	printf("\nchoix?");
 	scanf("%d",&choix);
 	while(choix<0 || choix>m->cmpt){
 		scanf("%d",&choix);
@@ -82,7 +112,10 @@ void useMenu(Menu_t *m){
 	}
 }
 
-//fonction pour vider le menu
+/*
+ * the fonction that deletes the menu
+ * result is satisfying
+ */
 void deleteMenu(Menu_t *m){
 	free(m);
 }
@@ -91,8 +124,10 @@ void f(){
 	printf("you choosed something");
 }
 
-//bool cont = true;
-
+/*
+ * the fonction that makes it returns to the main menu
+ * result is satisfying
+ */
 void returnn(){
 
 }
@@ -106,41 +141,48 @@ Menu_t* Prepare_Menu(){
 	Menu_t* sm3;
 	Menu_t* sm4;
 	Menu_t* sm12;
-	MENU = createMenu("Main"); 
+        Menu_t* sm21;
+	MENU = createMenu("Main Menu"); 
 
-	sm1 = createMenu("Fichier"); 
-	addMenuAction(sm1,"Nouveau",Nouveau);
-	addMenuAction(sm1,"Ouvrir",Ouvrir);
-	addMenuAction(sm1,"Enregistrer",Sauvgarder); 
+	sm1 = createMenu("File"); 
+	addMenuAction(sm1,"New",Nouveau);
+	addMenuAction(sm1,"Open",Ouvrir);
+	addMenuAction(sm1,"Save",Sauvgarder); 
 
-	sm12 = createMenu("Enregistrer comme");  
-	addMenuAction(sm12,"8bits Mono 11.025kHz",f);
-	addMenuAction(sm12,"16bits Stereo 44,1kHz",f);
-	addMenuAction(sm12,"24bits 5.1 192kHz",f); 
-	addMenuAction(sm12,"customisé",f);
+	sm12 = createMenu("Save as");  
+	addMenuAction(sm12,"8bits Mono 11.025kHz",bits8Mon);
+	addMenuAction(sm12,"16bits Stereo 44,1kHz",bits16Stero);
+	addMenuAction(sm12,"24bits 5.1 192kHz",bits24_6Canaux); 
+	addMenuAction(sm12,"Costumized",f);
 	addSubMenu(sm1,sm12);
 
 	addMenuAction(sm1,"Information",Information);
 	addMenuAction(sm1,"return",returnn);
 	addSubMenu(MENU,sm1);
 
-	sm2 = createMenu("Durée et tempo");
-	addMenuAction(sm2,"Inverser",Inverser);
-	addMenuAction(sm2,"Découper",Decouper);
-	addMenuAction(sm2,"Redimensionner",Redimensionner);
-	addMenuAction(sm2,"Ajout signal",Signal);
-	addMenuAction(sm2,"return",returnn);
+	sm2 = createMenu("Duration and tempo");
+	addMenuAction(sm2,"Reverse",Inverser);
+	addMenuAction(sm2,"Crop",Decouper);
+	addMenuAction(sm2,"Change Speed",Redimensionner);
+	
+        sm21 = createMenu("Add Signal");
+        addMenuAction(sm21,"Fonction cos()",Addcos);
+        addMenuAction(sm21,"Fonction sin()",Addsin);
+        addMenuAction(sm21,"Fonction tan()",Addtan);
+	addSubMenu(sm2,sm21);
+       
+        addMenuAction(sm2,"return",returnn);
 	addSubMenu(MENU,sm2);
 
-	sm3 = createMenu("Canaux");
-	addMenuAction(sm3,"ajouter",ajout_Canal);
-	addMenuAction(sm3,"suprimer",suprrime_Canal);
+	sm3 = createMenu("Canals");
+	addMenuAction(sm3,"Add Canals",ajout_Canal);
+	addMenuAction(sm3,"Delete Canals",suprrime_Canal);
 	addMenuAction(sm3,"return",returnn);
 	addSubMenu(MENU,sm3);
 
-	sm4 = createMenu("Hauteur");
-	addMenuAction(sm4,"more volume",f);
-	addMenuAction(sm4,"less volume",f);
+	sm4 = createMenu("Volume Height");
+	addMenuAction(sm4,"More volume",f);
+	addMenuAction(sm4,"Less volume",f);
 	addMenuAction(sm4,"return",returnn);
 	addSubMenu(MENU,sm4);
 

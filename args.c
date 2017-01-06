@@ -90,6 +90,8 @@ void lunchOptions(int argc, char** argv){
 	opt = opt_2unsignedInt(opt, "-crop", optCrop);
 	opt = opt_float(opt, "-s",optScale);
 	opt = opt_float(opt, "-scale",optScale);
+        opt = opt_void(opt, "-h",optHelp);
+        opt = opt_void(opt, "-help",optHelp); 
 
 	process_arguments(opt, argc, argv);
 

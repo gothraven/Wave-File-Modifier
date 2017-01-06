@@ -262,33 +262,115 @@ void suprrime_Canal(){
 }
 
 /*
- * using a new wave file, this fonction add a signal from a mathimathical fonction
- * result is satisfying
+ * to add the graphe of the cos() fonction to a wave created
+ * result is not satisfying
  */
-void Signal(){
-	if(!exist){
+void Addcos(){
+  if(!exist){
+       printf("There is no file being used to be saved ...\n");
+  }else{
+     printf("i'm here");
+     add_signal(wave,cos); 
+     printf("Adding signal ..\n");
+     sleep(1);
+     clrscr();
+  }
+}
+
+/*
+ * to add the graphe of the sin() fonction to a wave created
+ * result is not satisfying
+ */
+void Addsin(){
+  if(!exist){
+       printf("There is no file being used to be saved ...\n");
+  }else{
+     add_signal(wave,sin); 
+     printf("Adding signal ..\n");
+     sleep(1);
+     clrscr();
+  }
+}   
+
+/*
+ * to add the graphe of the tan() fonction to a wave created
+ * result is not satisfying
+ */
+void Addtan(){
+  if(!exist){
+       printf("There is no file being used to be saved ...\n");
+  }else{
+     add_signal(wave,tan); 
+     printf("Adding signal ..\n");
+     sleep(1);
+     clrscr();
+  }
+}        
+
+void bits8Mon(){
+  if(!exist){
 		printf("There is no file being used to be saved ...");
 	}else{
-		printf("We have only this kind of signal: (1)cos(), (2)sin(), (3)tan()");
-		int choix;
-		scanf("%d",&choix);
-		while(choix < 1 || choix > 3){
-			printf("we don't have a fonction with this number \"%d\"");
-			scanf("%d",&choix);
-		}
-		switch(choix){
-			case(1): add_signal(wave,cos); break;
-			case(2): add_signal(wave,sin); break;
-			case(3): add_signal(wave,tan); break;
-			default: printf("error\n"); break;
-		} 
-		printf("Adding signal ...\n");
-		sleep(1);
+		printf("How you want name your file?");
+		char name[100];
+		scanf("%s",name);
+		strcat(name,".wav");
+                wave_canal(&wave,1);
+                change_precision(wave,8);
+                wave_save(name,wave);
+		printf("Saving ...\n");
+		sleep(5);
+		clrscr();
+	}
+}
+
+void bits16Stero(){
+  if(!exist){
+		printf("There is no file being used to be saved ...");
+	}else{
+		printf("How you want name your file?");
+		char name[100];
+		scanf("%s",name);
+		strcat(name,".wav");
+                wave_canal(&wave,2);
+                change_precision(wave,16);
+		wave_save(name,wave);
+		printf("Saving ...\n");
+		sleep(5);
+		clrscr();
+	}
+}
+
+void bits24_6Canaux(){
+  if(!exist){
+		printf("There is no file being used to be saved ...");
+	}else{
+		printf("How you want name your file?");
+		char name[100];
+		scanf("%s",name);
+		strcat(name,".wav");
+                wave_canal(&wave,6);
+                change_precision(wave,24);
+		wave_save(name,wave);
+		printf("Saving ...\n");
+		sleep(5);
 		clrscr();
 	}
 }
 
 
+void optHelp(){
+ printf("  -i OR -open [filename].wav, for opening a wave file\n\n");
+ printf("  -o OR -save [filename].wav, for saving a wave file\n\n");
+ printf("  -p OR -print [void] , to show the wave's header informations\n\n");
+ printf("  -r OR -reverse [void], to reverse a wave sample\n\n");
+ printf("  -c OR -crop [unsigned number] [unsigned number], to crop a wave sample\n\n");
+ printf("                starting^bloc      ending^bloc                \n\n");
+ printf("  -s OR -scal [float], to make your sample goes faster or slower\n\n");
+
+ printf("NOTICE : you need to load and save your wave file everytime\n         only for scalling you just need to load it.\n\n");
+
+}
 void optOpen(const char *fname){
 	wave = wave_load(wave,fname);
 	exist = true;
@@ -324,7 +406,7 @@ void optCrop(uint32_t a,uint32_t b){
 void optScale(float f){
 	if(exist){
 		wave_scale(wave,f);
-		printf("freq = %u\n",wave->header->freqEch);
+                wave_save("scale",wave);
 	}else{
 		printf("you didn't open any file\n");
 	}
@@ -336,7 +418,7 @@ int main(int argc, char** argv){
 		lunchOptions(argc,argv); 
 		return EXIT_SUCCESS;
 	}
-	animation();
+	//animation();
 
 	Menu_t * MENU = Prepare_Menu();
 	addMenuAction(MENU,"Quitter",quit);

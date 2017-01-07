@@ -80,6 +80,7 @@ typedef struct{
 
 Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B);
 Wave_t* wave_load(Wave_t * wave, const char* fname);
+Wave_t* wave_load_opt(Wave_t * wave, const char* fname);
 
 bool load_riff(Wave_t * wave,FILE * ptr);
 bool load_taille(FILE * ptr);

@@ -45,6 +45,26 @@ Wave_t* wave_new(uint32_t f,uint16_t p,uint16_t c,uint32_t B){
 
 }
 
+
+/*
+ * To load a wave file from the hard drive needed for options
+ * result is satisfying
+ * copied and used
+ */
+Wave_t* wave_load_opt(Wave_t * wave, const char* fname){
+	FILE * ptr; 
+	ptr = fopen(fname, "rb");
+	wave = malloc(sizeof(Wave_t));
+	if (ptr == NULL) {
+		fprintf(stderr,"Thie file \" %s \" doesn't exist.\n", fname);
+                return NULL;
+	}else{
+		headerWave_load_fast(wave,ptr);
+		load_data(wave,ptr);
+		return wave;
+	}
+}
+
 /*
  * To load a wave file from the hard drive
  * result is satisfying
@@ -65,7 +85,6 @@ Wave_t* wave_load(Wave_t * wave, const char* fname){
 		free(name);
 
 	}else{
-		printf("Opening file..\n\n");
 		headerWave_load_fast(wave,ptr);
 		load_data(wave,ptr);
 		return wave;

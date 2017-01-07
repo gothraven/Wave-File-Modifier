@@ -19,11 +19,11 @@ void clrscr(){
  * result is satisfying
  */
 int ask_choice(void){
-    int ch;
-    ch = getchar();
-    while('\n'!=getchar());
+	int ch;
+	ch = getchar();
+	while('\n'!=getchar());
 
-    return ch;
+	return ch;
 }
 
 /*
@@ -104,11 +104,7 @@ void useMenu(Menu_t *m){
 	if(m->items[choix-1]->tag==ssm){
 		useMenu(m->items[choix-1]->item->sous_menu);
 	}else  if(m->items[choix-1]->tag==act){
-		if(m->items[choix-1]->tag==act == returnn){
-			useMenu(m->root);
-		}else{
-			m->items[choix-1]->item->action->fonc();
-		}
+		m->items[choix-1]->item->action->fonc();
 	}
 }
 
@@ -141,7 +137,7 @@ Menu_t* Prepare_Menu(){
 	Menu_t* sm3;
 	Menu_t* sm4;
 	Menu_t* sm12;
-        Menu_t* sm21;
+	Menu_t* sm21;
 	MENU = createMenu("Main Menu"); 
 
 	sm1 = createMenu("File"); 
@@ -156,33 +152,42 @@ Menu_t* Prepare_Menu(){
 	addSubMenu(sm1,sm12);
 
 	addMenuAction(sm1,"Information",Information);
-	addMenuAction(sm1,"return",returnn);
+	addMenuAction(sm1,"Return",returnn);
 	addSubMenu(MENU,sm1);
 
 	sm2 = createMenu("Duration and tempo");
 	addMenuAction(sm2,"Reverse",Inverser);
 	addMenuAction(sm2,"Crop",Decouper);
 	addMenuAction(sm2,"Change Speed",Redimensionner);
-	
-        sm21 = createMenu("Add Signal");
-        addMenuAction(sm21,"Fonction cos()",Addcos);
-        addMenuAction(sm21,"Fonction sin()",Addsin);
-        addMenuAction(sm21,"Fonction tan()",Addtan);
+
+	sm21 = createMenu("Add Signal");
+	addMenuAction(sm21,"Fonction cosinus",Addcos);
+	addMenuAction(sm21,"Fonction arc cosinus",Addacos);
+	addMenuAction(sm21,"Fonction arc cosinus hyperbolique",Addacosh);
+
+	addMenuAction(sm21,"Fonction sinus",Addsin);
+	addMenuAction(sm21,"Fonction arc sinus",Addasin);
+	addMenuAction(sm21,"Fonction arc sinus hyperbolique",Addasinh);
+
+	addMenuAction(sm21,"Fonction tangente",Addtan);
+	addMenuAction(sm21,"Fonction arc tangente",Addatan);
+	addMenuAction(sm21,"Fonction arc tangente hyperbolique",Addtan);
+
 	addSubMenu(sm2,sm21);
-       
-        addMenuAction(sm2,"return",returnn);
+
+	addMenuAction(sm2,"Return",returnn);
 	addSubMenu(MENU,sm2);
 
 	sm3 = createMenu("Canals");
 	addMenuAction(sm3,"Add Canals",ajout_Canal);
 	addMenuAction(sm3,"Delete Canals",suprrime_Canal);
-	addMenuAction(sm3,"return",returnn);
+	addMenuAction(sm3,"Return",returnn);
 	addSubMenu(MENU,sm3);
 
 	sm4 = createMenu("Volume Height");
 	addMenuAction(sm4,"More volume",Augument_Volume);
 	addMenuAction(sm4,"Less volume",Baisser_Volume);
-	addMenuAction(sm4,"return",returnn);
+	addMenuAction(sm4,"Return",returnn);
 	addSubMenu(MENU,sm4);
 
 	return MENU;

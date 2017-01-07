@@ -22,6 +22,15 @@ option_t* opt_string(option_t* l, const char* kw, void (*f)(const char*)){
 	return li;
 }
 
+option_t* opt_unsignedInt(option_t* l, const char* kw, void (*f)(unsigned int)){
+	list li = (list)malloc(sizeof(option_t));
+	li->keyword = kw;
+	li->spec = OptUnsignedInt;
+	li->fct.opt_unsigned_int = f;
+	li->next = l;
+	return li;
+}
+
 option_t* opt_2unsignedInt(option_t* l, const char* kw, void (*f)(unsigned int,unsigned int)){
 	list li = (list)malloc(sizeof(option_t));
 	li->keyword = kw;
@@ -58,8 +67,11 @@ void process_arguments(option_t* l, int argc, char ** argv){
 							break;
 					case OptFloat: flo =(float) atof(argv[i+1]);
 						       cursor->fct.opt_float(flo);
-						       i++;
+						       i+=2;
 						       break;
+                                        case OptUnsignedInt: nb1 = atoi(argv[i+1]);
+                                                             cursor->fct.opt_unsigned_int((unsigned int)nb1); 
+					                     break;
 					case Opt2UnsignedInt: nb1 =(unsigned int) atoi(argv[i+1]);
 							      nb2 =(unsigned int) atoi(argv[i+2]);
 							      cursor->fct.opt_2unsigned_int(nb1,nb2);
@@ -91,6 +103,8 @@ void lunchOptions(int argc, char** argv){
 	opt = opt_float(opt, "-s",optScale);
 	opt = opt_float(opt, "-scale",optScale);
         opt = opt_void(opt, "-h",optHelp);
+        opt = opt_unsignedInt(opt, "-vp",optVolumeUp);
+        opt = opt_unsignedInt(opt, "-vd",optVolumeDown);
         opt = opt_void(opt, "-help",optHelp); 
 
 	process_arguments(opt, argc, argv);

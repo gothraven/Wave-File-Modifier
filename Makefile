@@ -2,7 +2,7 @@ EXEC=App.exe
 SOURCES=menu.c args.c wave.c main.c animation.c
 OBJECTS=$(SOURCES:.c=.o)
 CC=gcc 
-CFLAGS= -w -Wall
+CFLAGS= -w -Wall -Werror -std=c99
 INCF= -lm -lncurses
 .PHONY: default clean
  

@@ -169,15 +169,19 @@ int main(void) {
      
     /* Seul les paramètres taille, subTaille2 et data ne sont pas initialisés */
     initWave(&wav);
+
     /* On génère des données */
     genererPiste(&wav);
+
     /* On écris l'en-tête SANS LE wav->data */
     fwrite(&wav, T_ENTETE, 1, fich);
+
     /* On écris les data */
     fwrite(wav.data, wav.subTaille2, 1, fich);
-     
+
     /* On libère notre mémoire, et on ferme le fichier */
     free(wav.data);
+
     fclose(fich);
     /* Voilà notre fichier son est créé  */
     return 0;

@@ -95,7 +95,7 @@ void useMenu(Menu_t *m){
 			printf("  %d - %s\n",i+1,m->items[i]->item->sous_menu->desc);
 		}
 	}
-	printf("\nchoix?");
+	printf("\nchoix?\n");
 	scanf("%d",&choix);
 	while(choix<0 || choix>m->cmpt){
 		scanf("%d",&choix);
@@ -141,54 +141,54 @@ Menu_t* Prepare_Menu(){
 	MENU = createMenu("Main Menu"); 
 
 	sm1 = createMenu("File"); 
-	addMenuAction(sm1,"New",Nouveau);
-	addMenuAction(sm1,"Open",Ouvrir);
-	addMenuAction(sm1,"Save",Sauvgarder); 
+	if(!addMenuAction(sm1,"New",Nouveau)) printf("Problem making New\n"); 
+	if(!addMenuAction(sm1,"Open",Ouvrir)) printf("Problem making Open\n");
+	if(!addMenuAction(sm1,"Save",Sauvgarder)) printf("Problem making Save\n");
 
 	sm12 = createMenu("Save as");  
-	addMenuAction(sm12,"8bits Mono 11.025kHz",bits8Mon);
-	addMenuAction(sm12,"16bits Stereo 44,1kHz",bits16Stero);
-	addMenuAction(sm12,"24bits 5.1 192kHz",bits24_6Canaux);
-	addSubMenu(sm1,sm12);
+	if(!addMenuAction(sm12,"8bits Mono 11.025kHz",bits8Mon)) printf("Problem making 8bits Mono 11.025kHz\n");
+	if(!addMenuAction(sm12,"16bits Stereo 44,1kHz",bits16Stero)) printf("Problem making 16bits Stereo 44,1kHz\n");
+	if(!addMenuAction(sm12,"24bits 5.1 192kHz",bits24_6Canaux)) printf("Problem making 24bits 5.1 192kHz\n");
+	if(!addSubMenu(sm1,sm12)) printf("Problem making SAVE manu\n");
 
-	addMenuAction(sm1,"Information",Information);
-	addMenuAction(sm1,"Return",returnn);
-	addSubMenu(MENU,sm1);
+	if(!addMenuAction(sm1,"Information",Information)) printf("Problem making Information\n");
+	if(!addMenuAction(sm1,"Return",returnn)) printf("Problem making Return\n");
+	if(!addSubMenu(MENU,sm1)) printf("Problem adding sm1 to MENU \n");
 
 	sm2 = createMenu("Duration and tempo");
-	addMenuAction(sm2,"Reverse",Inverser);
-	addMenuAction(sm2,"Crop",Decouper);
-	addMenuAction(sm2,"Change Speed",Redimensionner);
+	if(!addMenuAction(sm2,"Reverse",Inverser)) printf("Problem making Reverse\n");
+	if(!addMenuAction(sm2,"Crop",Decouper)) printf("Problem making Crop\n");
+	if(!addMenuAction(sm2,"Change Speed",Redimensionner)) printf("Problem making Change Speed\n");
 
 	sm21 = createMenu("Add Signal");
-	addMenuAction(sm21,"Fonction cosinus",Addcos);
-	addMenuAction(sm21,"Fonction arc cosinus",Addacos);
-	addMenuAction(sm21,"Fonction arc cosinus hyperbolique",Addacosh);
+	if(!addMenuAction(sm21,"Fonction cosinus",Addcos)) printf("Problem making Fonction cosinus\n");
+	if(!addMenuAction(sm21,"Fonction arc cosinus",Addacos)) printf("Problem making Fonction arc cosinus\n");
+	if(!addMenuAction(sm21,"Fonction arc cosinus hyperbolique",Addacosh)) printf("Problem making Fonction arc cosinus hyperbolique\n");
 
-	addMenuAction(sm21,"Fonction sinus",Addsin);
-	addMenuAction(sm21,"Fonction arc sinus",Addasin);
-	addMenuAction(sm21,"Fonction arc sinus hyperbolique",Addasinh);
+	if(!addMenuAction(sm21,"Fonction sinus",Addsin)) printf("Problem making sinus\n");
+	if(!addMenuAction(sm21,"Fonction arc sinus",Addasin)) printf("Problem making arc sinus\n");
+	if(!addMenuAction(sm21,"Fonction arc sinus hyperbolique",Addasinh)) printf("Problem making arc sinus hyperbolique\n");
 
-	addMenuAction(sm21,"Fonction tangente",Addtan);
-	addMenuAction(sm21,"Fonction arc tangente",Addatan);
-	addMenuAction(sm21,"Fonction arc tangente hyperbolique",Addtan);
+	if(!addMenuAction(sm21,"Fonction tangente",Addtan)) printf("Problem making tangente\n");
+	if(!addMenuAction(sm21,"Fonction arc tangente",Addatan)) printf("Problem making arc tangente\n");
+	if(!addMenuAction(sm21,"Fonction arc tangente hyperbolique",Addtan)) printf("Problem making arc tangente hyperbolique\n");
 
-	addSubMenu(sm2,sm21);
+	if(!addSubMenu(sm2,sm21)) printf("Problem adding sm21 to sm2\n");
 
-	addMenuAction(sm2,"Return",returnn);
-	addSubMenu(MENU,sm2);
+	if(!addMenuAction(sm2,"Return",returnn)) printf("Problem making Return\n");
+	if(!addSubMenu(MENU,sm2)) printf("Problem adding sm2 to MENU\n");
 
 	sm3 = createMenu("Canals");
-	addMenuAction(sm3,"Add Canals",ajout_Canal);
-	addMenuAction(sm3,"Delete Canals",suprrime_Canal);
-	addMenuAction(sm3,"Return",returnn);
-	addSubMenu(MENU,sm3);
+	if(!addMenuAction(sm3,"Add Canals",ajout_Canal)) printf("Problem making Add Canals\n");
+	if(!addMenuAction(sm3,"Delete Canals",suprrime_Canal)) printf("Problem making Delete Canals\n");
+	if(!addMenuAction(sm3,"Return",returnn)) printf("Problem making Return\n");
+	if(!addSubMenu(MENU,sm3)) printf("Problem adding sm3 to MENU\n");
 
 	sm4 = createMenu("Volume Height");
-	addMenuAction(sm4,"More volume",Augument_Volume);
-	addMenuAction(sm4,"Less volume",Baisser_Volume);
-	addMenuAction(sm4,"Return",returnn);
-	addSubMenu(MENU,sm4);
+	if(!addMenuAction(sm4,"More volume",Augument_Volume)) printf("Problem making More volume\n");
+	if(!addMenuAction(sm4,"Less volume",Baisser_Volume)) printf("Problem making Less volume\n");
+	if(!addMenuAction(sm4,"Return",returnn)) printf("Problem making Return\n");
+	if(!addSubMenu(MENU,sm4)) printf("Problem adding sm4 to MENU\n");
 
 	return MENU;
 }

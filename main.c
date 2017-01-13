@@ -150,8 +150,9 @@ void Information(){
 		printf("There is no file being used to be saved ...");
 	}else{
 		wave_info(wave);
-		int key;
-		scanf("%d",&key);
+		printf("\n0 - return\n");
+		printf("\nchoice?\n");
+		int key; scanf("%d",&key);
 		clrscr();
 	}
 }
@@ -530,7 +531,7 @@ int main(int argc, char** argv){
 	}
 
 	//animation();
-
+        endwin();
 	Menu_t * MENU = Prepare_Menu();
 	addMenuAction(MENU,"Quitter",quit);
 

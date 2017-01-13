@@ -846,9 +846,6 @@ void change_precision(Wave_t* wave,uint16_t p){
 		case(24): newWave->data = (unsigned char*)d32bit; break;
 		default: printf("erreur when making data inside the wave\n");
 	}
-
-	wave_info(newWave);
-	wave_save("prs.wav",newWave);
 }
 /*
  * to change the wave's volume

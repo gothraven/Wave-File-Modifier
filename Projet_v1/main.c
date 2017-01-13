@@ -11,7 +11,6 @@
 #include "args.h"
 #include "animation.h"
 
-
 #define ENTER 10
 #define ESCAPE 27
 

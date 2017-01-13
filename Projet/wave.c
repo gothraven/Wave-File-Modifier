@@ -83,7 +83,6 @@ Wave_t* wave_load(Wave_t * wave, const char* fname){
 		strcat(name,".wav");
 		return wave = wave_load(wave,name);
 		free(name);
-
 	}else{
 		headerWave_load_fast(wave,ptr);
 		load_data(wave,ptr);
@@ -430,8 +429,8 @@ void wave_crop_sec(Wave_t * wave){
 
 /*
  * To get a sample which exists in the bloc i and the colon j
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 int64_t wave_get(Wave_t * wave, uint32_t i, uint16_t j){
 	uint16_t octParBloc = wave->header->align;
@@ -592,8 +591,8 @@ void wave_delete(Wave_t * wave){
 /*
  * To splite a wave file into a table of wave each one of them contains a chanal of the original wave
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t ** wave_split(Wave_t * wave, int* pc){
 	Wave_t ** waveTab = malloc(sizeof(Wave_t)*(wave->header->nombreCanaux+1));
@@ -614,8 +613,8 @@ Wave_t ** wave_split(Wave_t * wave, int* pc){
 /*
  * To merge two wave files into only one
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2){
 	Wave_t * wave = wave_new(wave1->header->freqEch,wave1->header->bitsParEch,1,wave1->header->subTaille2/wave1->header->align);
@@ -628,8 +627,8 @@ Wave_t * wave_merge_deux(Wave_t* wave1,Wave_t* wave2){
 /*
  * To merge all the wave files inside the table inside one wave that has c waves which is how many wave inside the table too
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t * wave_merge_all(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
@@ -648,7 +647,7 @@ Wave_t * wave_merge_all(Wave_t ** waveTab,int c){
 /*
  * to find how much waves in a table
  * result is satisfying
- * not copied and not being used
+ * copied and being used
  */
 int tailleTab(Wave_t**waveTab){
 	int i=0;
@@ -659,8 +658,8 @@ int tailleTab(Wave_t**waveTab){
 /*
  * to merge some canals when we want have less canals then we had
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t * wave_merge(Wave_t ** waveTab,int c){
 	Wave_t * wave = wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,c,waveTab[0]->header->subTaille2/waveTab[0]->header->align);
@@ -690,8 +689,8 @@ Wave_t * wave_merge(Wave_t ** waveTab,int c){
 /* 
  * to add more canals  
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t * wave_doublicat(Wave_t * wave,int c){
 	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,c,wave->header->subTaille2/wave->header->align);
@@ -711,8 +710,8 @@ Wave_t * wave_doublicat(Wave_t * wave,int c){
 /*
  * to change the wave's number of channels
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 void wave_canal(Wave_t** wave, uint16_t c){
 	int p = 0;
@@ -728,7 +727,7 @@ void wave_canal(Wave_t** wave, uint16_t c){
 /*
  * to print the amplitude we have in a certain channel into a txt file
  * result is satisfying
- * not copied and not being used
+ * copied and being used
  */
 void get_canal(Wave_t * wave,int c,const char * fname){
 	FILE * fp = fopen(fname,"wb+");
@@ -776,8 +775,8 @@ Wave_t* change_canal(Wave_t * wave,uint16_t c){
 /*
  * to change the wave's precision of a file
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not bieng used
+ * result is satisfying
+ * copied and bieng used
  */
 void change_precision(Wave_t* wave,uint16_t p){
 	Wave_t * newWave = wave_new(wave->header->freqEch,p,wave->header->nombreCanaux,(wave->header->subTaille2/wave->header->align));
@@ -850,8 +849,8 @@ void change_precision(Wave_t* wave,uint16_t p){
 /*
  * to change the wave's volume
  * (wave_get wave_set) are used
- * result is not satisfying
- * not copied and not bieng used
+ * result is satisfying
+ * copied and bieng used
  */
 void wave_volume(Wave_t* wave,float v){
      for(uint32_t i=0; i<wave->header->subTaille2/wave->header->align; i++){
@@ -862,8 +861,8 @@ void wave_volume(Wave_t* wave,float v){
 }
 /*
  * to just test the wave_get and wave_set
- * result is not satisfying
- * not copied and not being used
+ * result is satisfying
+ * copied and being used
  */
 Wave_t * wave_copy(Wave_t * wave){
 	Wave_t * w = wave_new(wave->header->freqEch,wave->header->bitsParEch,wave->header->nombreCanaux,wave->header->subTaille2/wave->header->align);
@@ -878,7 +877,7 @@ Wave_t * wave_copy(Wave_t * wave){
 /*
  * to find and returns the biggest wave file's number of samples
  * result is satisfying
- * not copied and not being used
+ * copied and being used
  */
 
 uint32_t find_biggest_wave(Wave_t ** waveTab){
@@ -899,7 +898,7 @@ uint32_t find_biggest_wave(Wave_t ** waveTab){
 /*
  * to concate n wave files
  * result is not satisfying
- * not copied or or being used
+ * not copied not being used
  */
 Wave_t * wave_concat(Wave_t ** waveTab){
 	Wave_t * wave =wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,tailleTab(waveTab),find_biggest_wave(waveTab));

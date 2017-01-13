@@ -9,7 +9,6 @@
 #include "menu.h"
 #include "wave.h"
 #include "args.h"
-#include "animation.h"
 
 bool cont = true;
 
@@ -530,8 +529,6 @@ int main(int argc, char** argv){
 		return EXIT_SUCCESS;
 	}
 
-	//animation();
-        endwin();
 	Menu_t * MENU = Prepare_Menu();
 	addMenuAction(MENU,"Quitter",quit);
 
@@ -539,6 +536,3 @@ int main(int argc, char** argv){
 
 	return EXIT_SUCCESS;
 }
-
-
-

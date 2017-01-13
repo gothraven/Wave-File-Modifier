@@ -1,9 +1,9 @@
 EXEC=App.exe
-SOURCES=menu.c args.c wave.c main.c animation.c
+SOURCES=menu.c args.c wave.c main.c
 OBJECTS=$(SOURCES:.c=.o)
 CC=gcc 
 CFLAGS= -w -Wall -Werror -std=c99
-INCF= -lm -lncurses
+INCF= -lm
 .PHONY: default clean
  
 default: $(EXEC)
@@ -11,8 +11,8 @@ default: $(EXEC)
 menu.o: menu.c menu.h
 args.o: args.c args.h
 wave.o: wave.c wave.h
-animation.o: animation.c animation.h
-main.o: main.c args.h wave.h menu.h animation.h
+main.o: main.c args.h wave.h menu.h
+
 %.o: %.c
 	@echo "\033[33mCompiling \033[1m\033[39m$@\033[21m \033[33mfrom \033[1m\033[39m$<\033[21m \033[33m"
 	@$(CC) -o $@ -c $< $(CFLAGS) $(INCF)

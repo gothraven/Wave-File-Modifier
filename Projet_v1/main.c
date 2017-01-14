@@ -195,24 +195,24 @@ void Information(Wave_t * wave,WINDOW * messagebar){
         wprintw(messagebar,"there is no file being used ...");
     }else{
         move(4,0);
-	printw("RIFF : %s\n",wave->header->riff);
-	printw("taille : %u\n",wave->header->taille);
-	printw("WAVE : %s\n",wave->header->wave);
-	printw("fmt_ : %s\n",wave->header->fmt);
-	printw("subTaille1 : %u\n",wave->header->subTaille1);
-	printw("formatAudio : %u\n",wave->header->formatAudio);
-	printw("nombreCanaux : %u\n",wave->header->nombreCanaux);
-	printw("freqEch : %u\n",wave->header->freqEch); 
+	printw("RIFF : %c%c%c%c\n",wave->header->riff[0],wave->header->riff[1],wave->header->riff[2],wave->header->riff[3]);
+	printw("Taille : %u oct\n",wave->header->taille);
+	printw("WAVE : %c%c%c%c\n",wave->header->wave[0],wave->header->wave[1],wave->header->wave[2],wave->header->wave[3]);
+	printw("fmt_ : %c%c%c%c\n",wave->header->fmt[0],wave->header->fmt[1],wave->header->fmt[2],wave->header->fmt[3]);
+	printw("SubTaille1 : %u\n",wave->header->subTaille1);
+	printw("Audio format : %u PCM\n",wave->header->formatAudio);
+	printw("Cannals number: %u\n",wave->header->nombreCanaux);
+	printw("Frequence : %u\n",wave->header->freqEch); 
 	printw("ByteRate : %u\n",wave->header->ByteRate);
-	printw("align : %u\n",wave->header->align);
-	printw("bitsParEch : %u\n",wave->header->bitsParEch);
-	printw("Ndata : %s\n",wave->header->Ndata);
-	printw("subTaille2 : %u\n",wave->header->subTaille2);
-	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8); //number of blocs
-	printw("nb_Blocs = %u\n",nb_Blocs);
+	printw("Align : %u\n",wave->header->align);
+	printw("Precision : %u\n",wave->header->bitsParEch);
+	printw("Ndata : %c%c%c%c\n",wave->header->Ndata[0],wave->header->Ndata[1],wave->header->Ndata[2],wave->header->Ndata[3]);
+	printw("SubTaille2 : %u\n",wave->header->subTaille2);
+	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
+	printw("Number of Blocs = %u\n",nb_Blocs);
 	float seconds = (float)(wave->header->subTaille2) / (wave->header->ByteRate);
-	printw("the time in seconds => %f \n",seconds);
-	printw("file time h:m:s:ms => %s\n",seconds_to_time(seconds));
+	printw("The time in seconds => %f \n",seconds);
+	printw("File time h:m:s:ms => %s\n",seconds_to_time(seconds));
         refresh();
 
    }
@@ -442,7 +442,7 @@ void suprrime_Canal(WINDOW * messagebar){
                         wrefresh(messagebar);
                         sleep(1);
 		}
-		wave = change_canal(wave,(choix + wave->header->nombreCanaux));
+		wave = change_canal(wave,(wave->header->nombreCanaux-choix));
                 wclear(messagebar);
 		wprintw(messagebar,"[ Deleting %d Canal(s) ]",choix);
 		wrefresh(messagebar);

@@ -257,25 +257,25 @@ bool wave_save(const char* fname, Wave_t * wave){
  */
 void wave_info(Wave_t * wave){
 
-	printf("information : \n\n");
-	printf("RIFF : %s\n",wave->header->riff);
-	printf("taille : %u\n",wave->header->taille);
-	printf("WAVE : %s\n",wave->header->wave);
-	printf("fmt_ : %s\n",wave->header->fmt);
-	printf("subTaille1 : %u\n",wave->header->subTaille1);
-	printf("formatAudio : %u\n",wave->header->formatAudio);
-	printf("nombreCanaux : %u\n",wave->header->nombreCanaux);
-	printf("freqEch : %u\n",wave->header->freqEch); 
+	printf("The file's header details : \n\n");
+	printf("RIFF : %c%c%c%c\n",wave->header->riff[0],wave->header->riff[1],wave->header->riff[2],wave->header->riff[3]);
+	printf("Taille : %u oct\n",wave->header->taille);
+	printf("WAVE : %c%c%c%c\n",wave->header->wave[0],wave->header->wave[1],wave->header->wave[2],wave->header->wave[3]);
+	printf("fmt_ : %c%c%c%c\n",wave->header->fmt[0],wave->header->fmt[1],wave->header->fmt[2],wave->header->fmt[3]);
+	printf("SubTaille1 : %u\n",wave->header->subTaille1);
+	printf("Audio format : %u PCM\n",wave->header->formatAudio);
+	printf("Cannals number : %u\n",wave->header->nombreCanaux);
+	printf("frequence : %u\n",wave->header->freqEch); 
 	printf("ByteRate : %u\n",wave->header->ByteRate);
-	printf("align : %u\n",wave->header->align);
-	printf("bitsParEch : %u\n",wave->header->bitsParEch);
-	printf("Ndata : %s\n",wave->header->Ndata);
-	printf("subTaille2 : %u\n",wave->header->subTaille2);
-	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8); //number of blocs
-	printf("nb_Blocs = %u\n",nb_Blocs);
+	printf("Align : %u\n",wave->header->align);
+	printf("Precision : %u\n",wave->header->bitsParEch);
+	printf("Ndata : %c%c%c%c\n",wave->header->Ndata[0],wave->header->Ndata[1],wave->header->Ndata[2],wave->header->Ndata[3]);
+	printf("SubTaille2 : %u\n",wave->header->subTaille2);
+	uint32_t nb_Blocs = (wave->header->subTaille2) / (wave->header->nombreCanaux * wave->header->bitsParEch/8);
+	printf("Number of Blocs = %u\n",nb_Blocs);
 	float seconds = (float)(wave->header->subTaille2) / (wave->header->ByteRate);
-	printf("the time in seconds => %f \n",seconds);
-	printf("file time h:m:s:ms => %s\n",seconds_to_time(seconds));
+	printf("The time in seconds => %f \n",seconds);
+	printf("File time h:m:s:ms => %s\n\n",seconds_to_time(seconds));
 
 }
 
@@ -898,7 +898,7 @@ uint32_t find_biggest_wave(Wave_t ** waveTab){
 /*
  * to concate n wave files
  * result is not satisfying
- * not copied not being used
+ * not copied and not being used
  */
 Wave_t * wave_concat(Wave_t ** waveTab){
 	Wave_t * wave =wave_new(waveTab[0]->header->freqEch,waveTab[0]->header->bitsParEch,tailleTab(waveTab),find_biggest_wave(waveTab));

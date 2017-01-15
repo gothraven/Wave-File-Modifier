@@ -518,16 +518,12 @@ void optVolumeDown(unsigned int v){
 }
 
 int main(int argc, char** argv){
-
 	if(argc != 1){
 		lunchOptions(argc,argv); 
 		return EXIT_SUCCESS;
 	}
-
 	Menu_t * MENU = Prepare_Menu();
 	addMenuAction(MENU,"Quitter",quit);
-
 	while(cont) useMenu(MENU);
-
 	return EXIT_SUCCESS;
 }

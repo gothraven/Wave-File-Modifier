@@ -65,19 +65,14 @@ void Nouveau(){
 		}
 	} 
 	printf("frequance: "); uint32_t f; scanf("%u",&f);
-	printf("f = %u\n",f);
 	printf("precision: "); uint16_t p; scanf("%u",&p);
-	printf("p = %u\n",p);
 	printf("nombre de canaux: "); uint16_t c; scanf("%u",&c);
-	printf("c = %u\n",c);
 	Time_t * time = malloc(sizeof(Time_t));
 	ask_time(time);
 	uint16_t b = c*(p/8);
 	uint32_t r = f * b;
-	printf("r = %lu\n",r);
 	float sec = (time->heure)*3600 + (time->min)*60 + time->sec;
 	uint32_t B = (uint32_t)((sec * r)/( c * p/8));
-	printf("B = %u\n",B);
 	wave = wave_new(f,p,c,B);
 	exist = true;
 	printf("Creating the new wave ...\n");

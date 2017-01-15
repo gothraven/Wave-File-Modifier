@@ -77,11 +77,14 @@ void Nouveau(WINDOW * messagebar){
         uint16_t c = get_number();
 	wprintw(messagebar,"%u",c);
         wrefresh(messagebar);
-	wprintw(messagebar,", blocs: ");
+	wprintw(messagebar,", seconds: ");
         wrefresh(messagebar);
-        uint32_t B = get_number();
-	wprintw(messagebar,"%u",B);
+        int sec = get_number();
+	wprintw(messagebar,"%u",sec);
         wrefresh(messagebar);
+        uint16_t b = c*(p/8);
+	uint32_t r = f * b;
+        uint32_t B = (uint32_t)((sec * r)/( c * p/8)); //get_number();
 	wave = wave_new(f,p,c,B);
 	exist = true;
         sleep(1);

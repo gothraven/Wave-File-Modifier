@@ -60,10 +60,6 @@ typedef struct{
 
 	/* Taille des données = D*/
 	uint32_t subTaille2;
-
-	//  void * data;
-	/* A allouer dynamiquement.
-	 * Contiendra les données */
 }WAVE;
 
 typedef struct{
@@ -104,7 +100,7 @@ void wave_info(Wave_t * wave);
 char* seconds_to_time(float raw_seconds);
 void wave_reverse(Wave_t * wave);
 
-void get_time(Wave_t * wave, Time_t * time); ///may be delete
+void get_time(Wave_t * wave, Time_t * time);
 void ask_time(Time_t * time);
 bool verify_time(Wave_t * wave,Time_t * time);
 uint32_t time2oct(Wave_t * wave,Time_t * time);

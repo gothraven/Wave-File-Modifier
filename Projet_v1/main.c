@@ -6,9 +6,8 @@
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
-#include "menu.h"
-#include "wave.h"
 #include "args.h"
+#include "wave.h"
 #include "animation.h"
 
 #define ENTER 10
